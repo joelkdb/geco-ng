@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <div class="ui-g">
+            <div class="ui-g-12 ui-lg-6">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:outputLabel value="Code :" for="code"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:inputText id="code" value="#{matiereBean.entity.code}" disabled="true" required="true"
+                                     class="form-control"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:outputLabel value="Libelllé :" for="libelle"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:inputText id="libelle" value="#{matiereBean.entity.libelle}" required="true" class="form-control"
+                                     requiredMessage="Le libellé de la matière est obligatoire." placeholder="Ex : Mathématique"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:outputLabel value="Coefficient :"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-2">
+                        <p:inputText id="coef" value="#{matiereBean.entity.coefficient}" class="form-control"
+                                     placeholder="Ex : 01" size="3" maxlength="2">
+                            <p:keyFilter regEx="/[\d]/"/>
+                        </p:inputText>
+                    </div>
+                    <div class="ui-g-12 ui-lg-6"></div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:outputLabel value="Type de matière :" for="type"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:selectOneMenu id="type" class="form-control" required="true"
+                                         converter="omnifaces.SelectItemsConverter" value="#{matiereBean.entity.typeMatiere}"
+                                         requiredMessage="Le type de matière est obligatoire.">
+                            <f:selectItem itemLabel="Sélectionner un type" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{typeMatiereBean.typeMatieres}" var="type" 
+                                           itemLabel="#{type.libelle}" itemValue="#{type}"/>
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:outputLabel value="Série de la classe :"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:selectOneMenu id="serie" class="form-control"
+                                         converter="omnifaces.SelectItemsConverter" value="#{matiereBean.entity.serie}">
+                            <f:selectItem itemLabel="Pas de série" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{serieBean.series}" var="serie" 
+                                           itemLabel="#{serie.libelle}" itemValue="#{serie}"/>
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

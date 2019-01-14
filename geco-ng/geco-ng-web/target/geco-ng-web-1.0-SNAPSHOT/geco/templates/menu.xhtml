@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition>
+            <p:menuitem value="Acceuil" icon="fa fa-home" outcome="/index"/>
+            <p:submenu label="Etablissements" icon="fa fa-building" 
+                       rendered="#{applicationBean.canAccessEtablissement()}">
+                <p:menuitem value="Nouveau établissement" icon="fa fa-plus"
+                            outcome="/geco/pages/etablissement/etablissement" style="width: 140px"/>
+                <p:menuitem value="Consultation" icon="fa fa-external-link" class="form-control"
+                            outcome="/geco/pages/etablissement/consultation"/>
+            </p:submenu>
+            <p:submenu label="Classes" icon="fa fa-building-o" rendered="#{applicationBean.canAccessClasse()}">
+                <p:menuitem value="Nouvelle classe" icon="fa fa-plus" class="form-control"
+                            outcome="/geco/pages/classe/classe"/>
+                <p:menuitem value="Consultation" icon="fa fa-external-link" class="form-control"
+                            outcome="/geco/pages/classe/consultation"/>
+                <p:menuitem value="Matières" icon="fa fa-reorder" class="form-control"
+                            outcome="/geco/pages/classe/matiere"/>
+                <p:menuitem value="Professeurs" icon="fa fa-reorder" class="form-control"
+                            outcome="/geco/pages/professeur/professeur"/>
+            </p:submenu>
+            <p:submenu label="Elèves" icon="fa fa-child" rendered="#{applicationBean.canAccessEleve()}">
+                <p:menuitem value="Création des élèves" icon="fa fa-plus" class="form-control"
+                            outcome="/geco/pages/eleve/eleve"/>
+                <p:menuitem value="Consultation" icon="fa fa-external-link" class="form-control"
+                            outcome="/geco/pages/eleve/consultation"/>
+                <p:menuitem value="Etablir cartes scolaires" icon="fa fa-photo" class="form-control"
+                            outcome="/geco/pages/eleve/carte-eleve" rendered="#{applicationBean.canAccessEleveCarte()}"/>
+                <p:menuitem value="Etablir bulletin" icon="fa fa-files-o" class="form-control"
+                            outcome="/geco/pages/eleve/bulletin" rendered="#{applicationBean.canAccessEleveBull()}"/>
+            </p:submenu>
+            <p:submenu label="Notes" icon="fa fa-file-o" rendered="#{applicationBean.canAccessNote()}">
+                <p:menuitem value="Affectation de notes" icon="fa fa-exchange" class="form-control"
+                            outcome="/geco/pages/note/affectation" rendered="#{applicationBean.canAddNote()}"/>
+                <p:menuitem value="Consultation" icon="fa fa-list" class="form-control"
+                            outcome="/geco/pages/note/consultation"/>
+            </p:submenu>
+            <p:submenu label="Paramétrage" icon="fa fa-gear" rendered="#{applicationBean.canAccessParametrage()}">
+                <p:menuitem value="Année-Scolaire" icon="fa fa-building" class="form-control"
+                            outcome="/geco/pages/parametrage/anneeScolaire"
+                            rendered="#{applicationBean.canAccessParamAnnee()}"/>
+                <p:menuitem value="Période" icon="fa fa-file" class="form-control"
+                            outcome="/geco/pages/parametrage/periode"
+                            rendered="#{applicationBean.canAccessParamPeriode()}"/>
+                <p:menuitem value="Type de Matière" icon="fa fa-building-o" class="form-control"
+                            outcome="/geco/pages/parametrage/typeDeMatiere"
+                            rendered="#{applicationBean.canAccessParamTypeMatiere()}"/>
+                <p:menuitem value="Serie" icon="fa fa-file" class="form-control"
+                            outcome="/geco/pages/parametrage/serie"
+                            rendered="#{applicationBean.canAccessParamSerie()}"/>
+                <p:menuitem value="Type de Contrôle" icon="fa fa-file-o" class="form-control"
+                            outcome="/geco/pages/parametrage/typeDeControle"
+                            rendered="#{applicationBean.canAccessParamControle()}"/>
+                <p:menuitem value="Type d'établissement" icon="fa fa-file" class="form-control"
+                            outcome="/geco/pages/parametrage/typeDeControle"
+                            rendered="#{applicationBean.canAccessParamEtablissement()}"/>
+            </p:submenu>
+            <p:submenu label="Administration" icon="fa fa-cogs" rendered="#{applicationBean.canAccessAdmin()}">
+                <p:menuitem value="Utilisateurs" outcome="/geco/templates/users/list"
+                            rendered="#{applicationBean.canAccessUsers()}"
+                            icon="fa fa-users"/>
+                <p:menuitem value="Rôles" outcome="/geco/templates/roles/list"
+                            rendered="#{applicationBean.canAccessRoles()}"
+                            icon="fa fa-user-secret"/>
+                <p:separator/>
+                <p:menuitem value="Journal" outcome="/geco/templates/logs/list"
+                            rendered="#{applicationBean.canAccessLogs()}"
+                            icon="fa fa-file-text"/>
+            </p:submenu>
+        </ui:composition>
+    </h:body>
+</html>

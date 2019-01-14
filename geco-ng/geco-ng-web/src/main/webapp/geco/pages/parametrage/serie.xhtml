@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/geco/templates/layout.xhtml">
+            <ui:define name="title">
+                Série
+            </ui:define>
+            
+            <ui:define name="description">
+                Cette pages vous permet de paramétrer les différentes séries de classes <br/>
+                rencontrées dans les établissements.
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="ui-g-12">
+                    <h:form style="padding-top: 10px">
+                        <p:fieldset legend="Créer une Série" toggleable="true" toggleSpeed="500"
+                                    id="serieField" styleClass="serieField">
+                            <div class="ui-g">
+                                <h:inputHidden id="id" value="#{serieBean.entity.id}" />
+                                <div class="ui-g-4">
+                                    <div class="ui-g-4" style="padding-top: 10px">
+                                        <p:outputLabel for="libelle" value="Designation :" class="form-control"/><br/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText id="libelle" placeholder="D, C, A, ...." 
+                                                     value="#{serieBean.entity.libelle}" required="true"
+                                                     class="form-control" requiredMessage="La désignation de la série est obligatoire.">
+                                        </p:inputText>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12">
+                                    <p:commandButton value="Enregistrer" icon="fa fa-save"
+                                                     action="#{serieBean.add()}" update="@form @(.serie)"
+                                                     disabled="#{serieBean.disableSave}" process="@form"/>
+
+                                    <p:commandButton value="Annuler" icon="fa fa-remove"
+                                                     action="#{serieBean.init()}" 
+                                                     update="@form" immediate="true" process="@this"/>
+                                    
+                                    <p:commandButton value="Modifier" icon="fa fa-edit"
+                                                     disabled="#{serieBean.disableEdit}"
+                                                     action="#{serieBean.update()}" update="@form @(.serie)" process="@form"/>
+                                </div>
+                            </div>                      
+                        </p:fieldset>
+                    </h:form>
+                    <h:form style="padding-top: 10px">
+                        <p:fieldset legend="Liste des Séries" toggleable="true" toggleSpeed="500">
+                            <p:dataTable var="item" value="#{serieBean.model}" id="serie" styleClass="serie"
+                                         reflow="true" rows="5" paginator="true" lazy="true" rowKey="#{item.id}"
+                                         emptyMessage="Liste vide.">
+                                <p:column headerText="Désignation de la Série">
+                                    <h:outputText value="#{item.libelle}" />
+                                </p:column>
+
+                                <p:column headerText="Actions">
+                                    <p:commandButton title="#{msg['core.components.datatable.operations.edit']}"
+                                                     action="#{serieBean.setEntity(item)}"
+                                                     icon="fa fa-edit" update="@(.serieField)"/>
+                                    <p:commandButton title="#{msg['core.components.datatable.operations.delete']}"
+                                                     icon="fa fa-remove" action="#{serieBean.delete(item)}"
+                                                     process="@(.serie)" update="@(.serie)">
+                                        <p:confirm header="Confirmation" icon="ui-icon-alert" 
+                                                   message="#{msg['core.components.datatable.operations.delete.confirmmessage']}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:fieldset>
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

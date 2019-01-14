@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <div class="ui-g-12 ui-md-12 ui-lg-12">
+            <p:dataTable id="eleves" lazy="true" value="#{eleveBean.model}" paginator="true"
+                         var="item" rowKey="#{item.code}" sortBy="#{item.code}" sortOrder="descending"
+                         emptyMessage="Liste vide" rows="5" styleClass="eleves">
+                <p:column style="width:30px">
+                    <p:rowToggler />
+                </p:column>
+
+                <p:column headerText="Nom/Prénom(s) élève" filterBy="#{item.nom} #{item.prenom}"
+                          sortBy="#{item.nom} #{item.prenom}">
+                    <h:outputText value="#{item.nom} #{item.prenom}"/>
+                </p:column>
+
+                <p:column headerText="Sexe" style="width: 40px">
+                    <h:outputText value="#{item.sexe}"/>
+                </p:column>
+
+                <p:column headerText="Né(e) le" style="width: 85px">
+                    <h:outputText value="#{item.dateNaissance}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Nom/Prénom(s) tuteur" filterBy="#{item.nomParent}"
+                          sortBy="#{item.nomParent} #{item.prenomParent}">
+                    <h:outputText value="#{item.nomParent} #{item.prenomParent}"/>
+                </p:column>
+
+                <p:column headerText="Téléphone tuteur">
+                    <h:outputText value="+#{item.indicatif1}#{item.portableParent1}/+#{item.indicatif2}
+                                  #{item.portableParent2}"/>
+                </p:column>
+
+                <p:column headerText="Adresse tuteur">
+                    <h:outputText value="#{item.adresseParent}"/>
+                </p:column>
+
+                <p:column headerText="Email tuteur">
+                    <h:outputText value="#{item.emailParent}"/>
+                </p:column>
+
+                <p:column headerText="Abonné" style="width: 55px" sortBy="#{item.abonne}">
+                    <center>
+                        <h:outputText value="#{item.abonne1}"/>
+                    </center>
+                </p:column>
+
+                <p:column headerText="Actions" style="width: 90px">
+                    <center>
+                        <p:commandButton title="#{msg['core.components.datatable.operations.edit']}"
+                                         icon="fa fa-edit" action="#{eleveBean.setEntity(item)}"
+                                         update="@(.eleveField)" immediate="true"/>
+                        <p:commandButton title="#{msg['core.components.datatable.operations.delete']}"
+                                         icon="fa fa-remove" process="@form" update="@form"
+                                         action="#{eleveBean.delete(item)}" immediate="true">
+                            <p:confirm header="Confirmation" icon="ui-icon-alert" 
+                                       message="#{msg['core.components.datatable.operations.delete.confirmmessage']}"/>
+                        </p:commandButton>
+                    </center>
+                </p:column>
+                <p:rowExpansion>
+                    <p:panelGrid columns="2" style="width: 300px">
+                        <f:facet name="header">
+                            <p:outputLabel value="Informations sur l'établissement de provenance"/>
+                        </f:facet>
+
+                        <h:outputText value="Type établissment :" />
+                        <h:outputText value="#{item.classe.etablissement.typeEtablissement.libelle}" />
+
+                        <h:outputText value="Établissement :" />
+                        <h:outputText value="#{item.classe.etablissement.nom}" />
+
+                        <h:outputText value="Classe :" />
+                        <h:outputText value="#{item.classe.libelle}"/>
+
+                        <h:outputText value="Série :" />
+                        <h:outputText value="#{item.classe.serie1}" />
+                    </p:panelGrid>
+                </p:rowExpansion>
+            </p:dataTable>
+        </div>
+    </h:body>
+</html>
+

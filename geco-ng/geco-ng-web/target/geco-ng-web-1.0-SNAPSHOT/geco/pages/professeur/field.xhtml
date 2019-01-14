@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <div class="ui-g">
+            <div class="ui-g-12 ui-lg-6">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-3">
+                        <p:outputLabel value="Code :" for="code"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-7">
+                        <p:inputText id="code" value="#{professeurBean.entity.code}" class="form-control"
+                                     required="true" disabled="true"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-3">
+                        <p:outputLabel value="Nom :" for="nom"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-7">
+                        <p:inputText id="nom" value="#{professeurBean.entity.nom}" class="form-control"
+                                     required="true" requiredMessage="Le nom du professeur est obligatoire."/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-3">
+                        <p:outputLabel value="Prénom(s) :" for="prenom"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-7">
+                        <p:inputText id="prenom" value="#{professeurBean.entity.prenom}" class="form-control"
+                                     required="true" requiredMessage="Le prénom du professeur est obligatoire."/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-3">
+                        <p:outputLabel value="Date de naissance :" for="dateNaissance"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-7">
+                        <p:calendar id="dateNaissance" mask="99/99/9999" value="#{professeurBean.entity.dateNaissance}"
+                                    validatorMessage="La date entrée n'est pas valide." pattern="dd/MM/yyyy"
+                                    maxdate="#{professeurBean.now}" size="15">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:calendar>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-lg-6">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-3">
+                        <p:outputLabel value="Sexe :" for="sexe"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-7">
+                        <p:selectOneMenu id="sexe" rendered="true" value="#{professeurBean.entity.sexe}"
+                                         required="true">
+                            <f:selectItem itemLabel="MASCULIN" itemValue="M"/>
+                            <f:selectItem itemLabel="FÉMININ" itemValue="F"/>
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="ui-g-12 ui-lg-3" style="padding-top: 15px">
+                        <p:outputLabel value="Adresse :" for="adresse"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-7">
+                        <p:inputTextarea id="adresse" value="#{professeurBean.entity.adresse}" class="form-control"
+                                         rows="2" cols="37"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-3">
+                        <p:outputLabel value="Email :" for="email"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-7">
+                        <p:inputText  id="email" class="form-control" value="#{professeurBean.entity.email}"
+                                      placeholder="Ex : gecoplus@gmail.com">
+                            <p:keyFilter regEx="/[a-z0-9_\.\-@]/i"/>
+                        </p:inputText>
+                    </div>
+                    <div class="ui-g-12 ui-lg-3">
+                        <p:outputLabel value="Téléphone :" for="telephone"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-1">
+                        <p:inputText  id="indicatif" size="3" maxlength="3" value="#{professeurBean.entity.indicatif}">
+                            <p:keyFilter regEx="/[\d]/"/>
+                        </p:inputText>
+                    </div>
+                    <div class="ui-g-12 ui-lg-7">
+                        <p:inputText  id="telephone" value="#{professeurBean.entity.portable}" size="15"
+                                      required="true" requiredMessage="Le numéro de téléphone du professeur est oligatoire.">
+                            <p:keyFilter regEx="/[\d]/"/>
+                        </p:inputText>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

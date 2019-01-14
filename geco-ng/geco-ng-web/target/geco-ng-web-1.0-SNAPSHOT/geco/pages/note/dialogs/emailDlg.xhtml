@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <p:dialog header="Informations de l'expéditeur" widgetVar="emailDlg">
+            <p:panelGrid columns="2">
+                <p:outputLabel value="Votre email :" for="email"/>
+                <p:inputText id="email" value="#{intervenirBean.senderEmail}" required="true"
+                             requiredMessage="Saisir un email." validatorMessage="Email invalide.">
+                    <p:keyFilter regEx="/[a-z0-9_\.\-@]/i"/>
+                </p:inputText>
+
+                <p:outputLabel value="Mot de passe :" for="mdp"/>
+                <p:password id="mdp" value="#{intervenirBean.password}" required="true"
+                            requiredMessage="Le mot de  passe est obligatoire."/>
+                
+                <p:outputLabel value="Nom d'utilisateur :" for="username"/>
+                <p:inputText id="username" value="#{intervenirBean.username}" required="true"
+                             requiredMessage="Le nom d'utilisateur est obligatoire."/>
+                
+                <p:commandButton value="Envoyer" icon="fa fa-send-o" action="#{intervenirBean.sendMail()}" 
+                                 onclick="PF('emailDlg').hide()" update="@form"/>
+            </p:panelGrid>
+        </p:dialog>
+    </h:body>
+</html>
+

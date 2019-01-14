@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/geco/templates/layout.xhtml">
+            <ui:define name="title">
+                Type de Matière
+            </ui:define>
+            
+            <ui:define name="description">
+                Cette page vous permet de paramétrer les types de matières possibles<br/>
+                rencontrées dans les établissements.
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="ui-g-12">
+                    <h:form style="padding-top: 10px">
+                        <p:fieldset legend="Créer un Type de Matière" toggleable="true" toggleSpeed="500"
+                                    id="typeMatiereField" styleClass="typeMatiereField">
+                            <div class="ui-g">
+                                <h:inputHidden id="id" value="#{typeMatiereBean.entity.id}" />
+                                <div class="ui-g-4">
+                                    <div class="ui-g-4" style="padding-top: 10px">
+                                        <p:outputLabel for="libelle" value="Designation :" class="form-control"/><br/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText id="libelle" placeholder="Obligatoire, Facultative, ..." 
+                                                     value="#{typeMatiereBean.entity.libelle}" required="true"
+                                                     class="form-control" requiredMessage="La désignation du type de matière est obligatoire.">
+                                        </p:inputText>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12">
+                                    <p:commandButton value="Enregistrer" icon="fa fa-save"
+                                                     action="#{typeMatiereBean.add()}" update="@form @(.typeMatiere)"
+                                                     disabled="#{typeMatiereBean.disableSave}" process="@form"/>
+
+                                    <p:commandButton value="Annuler" icon="fa fa-remove"
+                                                     action="#{typeMatiereBean.init()}" 
+                                                     update="@form" immediate="true" process="@this"/>
+
+                                    <p:commandButton value="Modifier" icon="fa fa-edit"
+                                                     disabled="#{typeMatiereBean.disableEdit}"
+                                                     action="#{typeMatiereBean.update()}" update="@form  @(.typeMatiere)" 
+                                                     process="@form"/>
+                                </div>
+                            </div>                      
+                        </p:fieldset>
+                    </h:form>
+                    <h:form style="padding-top: 10px">
+                        <p:fieldset legend="Liste des année scolaire" toggleable="true" toggleSpeed="500">
+                            <p:dataTable var="item" value="#{typeMatiereBean.model}" id="typeMatiere" styleClass="typeMatiere"
+                                         reflow="true" rows="5" paginator="true" lazy="true" rowKey="#{item.id}"
+                                         emptyMessage="Liste vide.">
+                                <p:column headerText="Désignation">
+                                    <h:outputText value="#{item.libelle}" />
+                                </p:column>
+
+                                <p:column headerText="Actions">
+                                    <center> 
+                                        <p:commandButton title="#{msg['core.components.datatable.operations.edit']}"
+                                                         action="#{typeMatiereBean.setEntity(item)}"
+                                                         icon="fa fa-edit" update="@(.typeMatiereField)"/>
+                                        <p:commandButton title="#{msg['core.components.datatable.operations.delete']}"
+                                                         icon="fa fa-remove" action="#{typeMatiereBean.delete(item)}"
+                                                         process="@(.typeMatiere)" update="@(.typeMatiere)">
+                                            <p:confirm header="Confirmation" icon="ui-icon-alert" 
+                                                       message="#{msg['core.components.datatable.operations.delete.confirmmessage']}"/>
+                                        </p:commandButton></center>
+                                </p:column>
+                            </p:dataTable>
+                        </p:fieldset>
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:dialog closable="false" header="Tableau de bulletin" widgetVar="bulletinDlg" modal="true"
+                      width="70%">
+                <p:dataTable id="bulletin" paginator="true" paginatorPosition="top" editable="true" lazy="true"
+                             emptyMessage="Liste vide." rows="10" value="#{eleveBean.bulletins}" var="item"
+                             rowKey="#{item.bulletinPK}" sortBy="#{item.bulletinPK}" sortOrder="descending">
+
+                    <p:ajax event="rowEdit" listener="#{bulletinBean.onRowEdit}" 
+                            update="bulletin @(.terminer)"/>
+                    <p:ajax event="rowEditCancel" update="bulletin @(.terminer)" process="@this"/>
+
+                    <p:column headerText="Matière" filterBy="#{item.matiere.libelle}">
+                        <center><h:outputText value="#{item.matiere.libelle}"/></center>
+                    </p:column>
+
+                    <p:column headerText="Professeur" filterBy="#{item.professeur.nom} #{item.professeur.prenom}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <center>
+                                    <h:outputText value="#{item.professeur.nom} #{item.professeur.prenom}"/>
+                                </center>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{item.professeur}" converter="omnifaces.SelectItemsConverter"
+                                                 style="width: 100%" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{professeurBean.professeurs}" var="prof" itemLabel="#{prof.nom} 
+                                                   #{prof.prenom}" itemValue="#{prof}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Moy. classe" id="moyClass">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <center><h:outputText value="#{item.moyenneClasse}" styleClass="moyClass"/></center>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputNumber maxlength="2" value="#{item.moyenneClasse}" style="width: 100%"
+                                               required="true" requiredMessage="La moyenne de classe est obligatoire."
+                                               maxValue="20" minValue="0" decimalPlaces="2" >
+                                </p:inputNumber>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Note Devoir" id="noteDev">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <center><h:outputText value="#{item.noteDevoir}" styleClass="noteDev"/></center>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputNumber maxlength="2" value="#{item.noteDevoir}" style="width: 100%"
+                                               required="true" requiredMessage="La note de devoir est obligatoire."
+                                               maxValue="20" minValue="0" decimalPlaces="2" >
+                                </p:inputNumber>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Note Compo." id="noteC">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <center><h:outputText value="#{item.noteCompo}" styleClass="noteC"/></center>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputNumber maxlength="2" value="#{item.noteCompo}" style="width: 100%"
+                                               required="true" requiredMessage="La note de Compo. est obligatoire."
+                                               maxValue="20" minValue="0" decimalPlaces="2" >
+                                </p:inputNumber>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Editer" style="width: 70px">
+                        <p:rowEditor editTitle="Editer" cancelTitle="Annuler" saveTitle="Valider"/>
+                    </p:column>
+                </p:dataTable>
+                
+                <f:facet name="footer">
+                    <p:commandButton value="Terminer" disabled="#{bulletinBean.disabled}" 
+                                     styleClass="terminer" process="@all"
+                                     action="#{eleveBean.exporterBulletin()}" oncomplete="PF('dialogueAfficherPdf').show();"
+                                     onclick="PF('bulletinDlg').hide()"/>
+                    &nbsp;
+                    <p:commandButton icon="fa fa-refresh" value="Actualiser" update="bulletin"/>
+                </f:facet>
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>
+

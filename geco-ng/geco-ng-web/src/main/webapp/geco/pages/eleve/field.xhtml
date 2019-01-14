@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <div class="ui-g">
+            <div class="ui-g-12 ui-lg-6">
+                <p:fieldset legend="Informations sur l'élève" style="background-color: #eff7fb">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-lg-5">
+                            <p:selectOneMenu id="etablissement" 
+                                             required="true" requiredMessage="Sélectionner un établissement."
+                                             converter="omnifaces.SelectItemsConverter"
+                                             title="Sélectionner un établissement">
+                                <f:selectItem itemLabel="Sélectionner un établissement" itemValue="#{null}" 
+                                              noSelectionOption="true"/>
+                                <f:selectItems value="#{etablissementBean.etablissements}" var="etab" 
+                                               itemLabel="#{etab.nom}" itemValue="#{etab}"/>
+                                <p:ajax event="itemSelect" listener="#{eleveBean.onSelectEtablissement}" 
+                                        update="classe"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="ui-g-12 ui-md-12 ui-lg-2"></div>
+                        <div class="ui-g-12 ui-lg-5">
+                            <p:selectOneMenu id="classe" class="form-control"
+                                             required="true" requiredMessage="Sélectionner une classe."
+                                             converter="omnifaces.SelectItemsConverter"
+                                             title="Sélectionner une classe" value="#{eleveBean.entity.classe}">
+                                <f:selectItem itemLabel="Sélectionner une classe" itemValue="#{null}" 
+                                              noSelectionOption="true"/>
+                                <f:selectItems value="#{eleveBean.classes}" var="classe" 
+                                               itemLabel="#{classe.libelle}" itemValue="#{classe}"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="ui-g-12 ui-lg-3">
+                            <p:outputLabel value="Code :" for="code"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-7">
+                            <p:inputText id="code" value="#{eleveBean.entity.code}" disabled="true" class="form-control"
+                                         required="true"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-3">
+                            <p:outputLabel value="Nom :" for="nom"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-7">
+                            <p:inputText id="nom" value="#{eleveBean.entity.nom}" class="form-control"
+                                         required="true" requiredMessage="Le nom de l'élève est obligatoire.">
+                            </p:inputText>
+                        </div>
+                        <div class="ui-g-12 ui-lg-3">
+                            <p:outputLabel value="Prénom(s) :" for="prenom"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-7">
+                            <p:inputText id="prenom" value="#{eleveBean.entity.prenom}" class="form-control"
+                                         required="true" requiredMessage="Le prénom de l'élève est obligatoire."/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-3">
+                            <p:outputLabel value="Sexe :" for="sexe"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-7">
+                            <p:selectOneMenu id="sexe" rendered="true" value="#{eleveBean.entity.sexe}"
+                                             required="true" class="form-control">
+                                <f:selectItem itemLabel="MASCULIN" itemValue="M"/>
+                                <f:selectItem itemLabel="FÉMININ" itemValue="F"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="ui-g-12 ui-lg-3">
+                            <p:outputLabel value="Date de naissance :" for="dateNaissance"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-7">
+                            <p:calendar id="dateNaissance" mask="99/99/9999" value="#{eleveBean.entity.dateNaissance}"
+                                        validatorMessage="La date entrée n'est pas valide." pattern="dd/MM/yyyy"
+                                        rendered="true" requiredMessage="La date de naissance est obligatoire."
+                                        maxdate="#{professeurBean.now}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </p:calendar>
+                        </div>
+                        <div class="ui-g-12 ui-lg-3">
+                            <p:outputLabel value="Nationalité :" for="nationalite"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-7">
+                            <p:inputText id="nationalite" value="#{eleveBean.entity.nationalite}" required="true"
+                                         requiredMessage="La nationalité est obligatoire."/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-3" style="padding-top: 15px">
+                            <p:outputLabel value="Adresse :"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-7">
+                            <p:inputTextarea id="adresse" value="#{eleveBean.entity.adresse}" rows="2" cols="37"/>
+                        </div>
+                    </div>
+                </p:fieldset>
+            </div>
+            <div class="ui-g-12 ui-lg-6">
+                <p:fieldset legend="Informations sur le(s) tuteurs" style="background-color: #eff7fb"
+                            styleClass="tuteurField">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-lg-3">
+                            <p:outputLabel value="Abonné :" for="abonne"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-7">
+                            <p:selectBooleanButton id="abonne" onLabel="Oui" offLabel="Non" onIcon="ui-icon-check" 
+                                                   offIcon="ui-icon-close" required="true" value="#{eleveBean.entity.abonne}">
+                                <p:ajax event="change" listener="#{eleveBean.onChange()}" update="@(.tuteurField)"/>
+                            </p:selectBooleanButton>
+                        </div>
+                        <div class="ui-g-12 ui-lg-3">
+                            <p:outputLabel value="Nom :" for="nomParent"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-7">
+                            <p:inputText id="nomParent" value="#{eleveBean.entity.nomParent}" class="form-control"
+                                         required="#{eleveBean.required}" requiredMessage="Le nom du tuteur est obligatoire."/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-3">
+                            <p:outputLabel value="Prénom(s) :" for="prenomParent"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-7">
+                            <p:inputText id="prenomParent" value="#{eleveBean.entity.prenomParent}" 
+                                         class="form-control" required="#{eleveBean.required}" 
+                                         requiredMessage="Le prénom du tuteur est obligatoire."/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-3" style="padding-top: 15px">
+                            <p:outputLabel value="Adresse :"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-7">
+                            <p:inputTextarea id="adresseP" value="#{eleveBean.entity.adresseParent}" 
+                                             class="form-control" rows="2" cols="37"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-3">
+                            <p:outputLabel value="Email :" for="email"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-7">
+                            <p:inputText  id="email" class="form-control" value="#{eleveBean.entity.emailParent}"
+                                          required="#{eleveBean.required}" requiredMessage="L'email du tuteur est obligatoire.">
+                                <p:keyFilter regEx="/[a-z0-9_\.\-@]/i"/>
+                            </p:inputText>
+                        </div>
+                        <div class="ui-g-12 ui-lg-3">
+                            <p:outputLabel value="Téléphone1 :" for="portable1"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-1">
+                            <p:inputText  id="indicatif1" size="3" maxlength="3" value="#{eleveBean.entity.indicatif1}">
+                                <p:keyFilter regEx="/[\d]/"/>
+                            </p:inputText>
+                        </div>
+                        <div class="ui-g-12 ui-lg-7">
+                            <p:inputText  id="portable1" value="#{eleveBean.entity.portableParent1}"
+                                          required="#{eleveBean.required}" 
+                                          requiredMessage="Le numéro de téléphone tuteur est oligatoire.">
+                                <p:keyFilter regEx="/[\d]/"/>
+                            </p:inputText>
+                        </div>
+                        <div class="ui-g-12 ui-lg-3">
+                            <p:outputLabel value="Téléphone2 :"/>
+                        </div>
+                        <div class="ui-g-12 ui-lg-1">
+                            <p:inputText  id="indicatif2" size="3" maxlength="3" value="#{eleveBean.entity.indicatif2}">
+                                <p:keyFilter regEx="/[\d]/"/>
+                            </p:inputText>
+                        </div>
+                        <div class="ui-g-12 ui-lg-7">
+                            <p:inputText  id="portable2" value="#{eleveBean.entity.portableParent2}">
+                                <p:keyFilter regEx="/[\d]/"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                </p:fieldset>
+            </div>
+        </div>
+    </h:body>
+</html>

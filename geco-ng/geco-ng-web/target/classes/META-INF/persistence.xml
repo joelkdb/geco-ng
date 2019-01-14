@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="geco-ngPU" transaction-type="JTA">
+    <jta-data-source>java:app/jdbc/geco-ng</jta-data-source>
+    <class>net.mediasoft.commons.core.entities.LogCategory</class>
+    <class>net.mediasoft.commons.core.entities.LogEvent</class>
+    <class>net.mediasoft.commons.core.entities.LogLevel</class>
+    <class>net.mediasoft.commons.core.entities.Permission</class>
+    <class>net.mediasoft.commons.core.entities.PermissionCategory</class>
+    <class>net.mediasoft.commons.core.entities.Role</class>
+    <class>net.mediasoft.commons.core.entities.Sequence</class>
+    <class>net.mediasoft.commons.core.entities.User</class>
+    <class>net.mediasoft.commons.core.entities.UserSession</class>
+    <class>net.mediasoft.commons.core.entities.Variable</class>
+    <class>tg.codeart.geco.ng.entites.AnneeScolaire</class>
+    <class>tg.codeart.geco.ng.entites.Classe</class>
+    <class>tg.codeart.geco.ng.entites.Controle</class>
+    <class>tg.codeart.geco.ng.entites.Eleve</class>
+    <class>tg.codeart.geco.ng.entites.Etablissement</class>
+    <class>tg.codeart.geco.ng.entites.Intervenir</class>
+    <class>tg.codeart.geco.ng.entites.Matiere</class>
+    <class>tg.codeart.geco.ng.entites.Periode</class>
+    <class>tg.codeart.geco.ng.entites.Professeur</class>
+    <class>tg.codeart.geco.ng.entites.Serie</class>
+    <class>tg.codeart.geco.ng.entites.TypeControle</class>
+    <class>tg.codeart.geco.ng.entites.TypeEtablissement</class>
+    <class>tg.codeart.geco.ng.entites.TypeMatiere</class>
+    <class>tg.codeart.geco.ng.entites.Bulletin</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="eclipselink.logging.level.sql" value="FINE"/>
+      <property name="eclipselink.logging.parameters" value="true"/>
+    </properties>
+  </persistence-unit>
+</persistence>

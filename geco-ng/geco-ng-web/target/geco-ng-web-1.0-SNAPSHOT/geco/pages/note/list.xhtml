@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <div class="ui-g-12 ui-md-12 ui-lg-12">
+            <p:dataTable id="notes" editable="true" styleClass="notes" lazy="true" paginator="true"
+                         value="#{controleBean.intervenirs}" emptyMessage="Liste vide." paginatorPosition="top"
+                         var="item" rows="5" rowKey="#{item.intervenirPK}" sortBy="#{item.intervenirPK}"
+                         sortOrder="descending">
+
+                <f:facet name="header">
+                    <h:outputText value="#{controleBean.header}"/>
+                </f:facet>
+
+                <p:ajax event="rowEdit" listener="#{intervenirBean.onRowEdit}" update="notes"/>
+                <p:ajax event="rowEditCancel" update="notes" process="@this"/>
+
+                <p:column style="width:30px">
+                    <p:rowToggler />
+                </p:column>
+
+                <p:column headerText="Élève" filterBy="#{item.eleve.nom} #{item.eleve.prenom}">
+                    <center><h:outputText value="#{item.eleve.nom} #{item.eleve.prenom}"/></center>
+                </p:column>
+
+                <p:column headerText="Classe" filterBy="#{item.classe.libelle} (#{item.classe.serie1})"
+                          style="width: 115px">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <center><h:outputText value="#{item.classe.libelle}"/></center>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu value="#{item.classe}" converter="omnifaces.SelectItemsConverter"
+                                             style="width: 100%" filter="true" filterMatchMode="startsWith">
+                                <f:selectItems value="#{classeBean.classes}" var="classe" itemLabel="#{classe.libelle} 
+                                               (#{classe.serie1})" itemValue="#{classe}"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Professeur" filterBy="#{item.professeur.nom} #{item.professeur.prenom}">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <center>
+                                <h:outputText value="#{item.professeur.nom} #{item.professeur.prenom}"/>
+                            </center>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu value="#{item.professeur}" converter="omnifaces.SelectItemsConverter"
+                                             style="width: 100%" filter="true" filterMatchMode="startsWith">
+                                <f:selectItems value="#{professeurBean.professeurs}" var="prof" itemLabel="#{prof.nom} 
+                                               #{prof.prenom}" itemValue="#{prof}"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Matière" filterBy="#{item.matiere.libelle}" style="width: 120px">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <center><h:outputText value="#{item.matiere.libelle} (#{item.matiere.serie1})"/></center>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu value="#{item.matiere}" converter="omnifaces.SelectItemsConverter"
+                                             style="width: 100%" filter="true" filterMatchMode="startsWith">
+                                <f:selectItems value="#{matiereBean.matieres}" var="mat" itemLabel="#{mat.libelle} 
+                                               (#{mat.serie1})" itemValue="#{mat}"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Contrôle">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <center><h:outputText value="#{item.controle.libelle}"/></center>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{item.controle.libelle}" style="width: 100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Type Contrôle" style="width: 110px">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <center><h:outputText value="#{item.controle.typeControle.libelle}"/></center>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu value="#{item.controle.typeControle}" style="width: 100%"
+                                             converter="omnifaces.SelectItemsConverter"
+                                             filter="true" filterMatchMode="startsWith">
+                                <f:selectItems value="#{typeControleBean.typeControles}" var="type" 
+                                               itemLabel="#{type.libelle}" itemValue="#{type}"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Note" style="width: 50px">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <center><h:outputText value="#{item.note}"/></center>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputNumber maxlength="2" value="#{item.note}" style="width: 100%"
+                                           required="true" requiredMessage="La note de contrôle est obligatoire."
+                                           maxValue="20" minValue="0" decimalPlaces="2" >
+                            </p:inputNumber>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Mention" style="width: 90px">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <center><h:outputText value="#{item.mention}"/></center>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu id="mention" class="form-control"
+                                             converter="omnifaces.SelectItemsConverter"
+                                             required="true"
+                                             requiredMessage="La mention est obligatoire."
+                                             value="#{item.mention}"
+                                             filter="true" filterMatchMode="startsWith">
+                                <f:selectItem itemLabel="Médiocre" itemValue="Médiocre"/>
+                                <f:selectItem itemLabel="Très Faible" itemValue="Très Faible"/>
+                                <f:selectItem itemLabel="Faible" itemValue="Faible"/>
+                                <f:selectItem itemLabel="Passable" itemValue="Passable"/>
+                                <f:selectItem itemLabel="Assez - Bien" itemValue="Assez - Bien"/>
+                                <f:selectItem itemLabel="Bien" itemValue="Bien"/>
+                                <f:selectItem itemLabel="Très Bien" itemValue="Très Bien"/>
+                                <f:selectItem itemLabel="Excellent" itemValue="Excellent"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Email envoyé" style="width: 55px">
+                    <center>
+                        <h:outputText value="#{item.envoye1}"/>
+                    </center>
+                </p:column>
+                
+                <p:column>
+                    <p:commandButton value="Envoyer email" icon="fa fa-send" onclick="PF('emailDlg').show()"
+                                     immediate="true" action="#{intervenirBean.setEntity(item)}" disabled="#{item.envoye}"/>
+                </p:column>
+
+                <p:column headerText="Editer" style="width: 70px" rendered="#{applicationBean.canEditNote()}">
+                    <p:rowEditor editTitle="Editer" cancelTitle="Annuler" saveTitle="Valider"/>
+                </p:column>
+                
+                <p:column headerText="Retirer" style="width: 70px" rendered="#{applicationBean.canDeleteNote()}">
+                    <p:commandButton icon="fa fa-remove" action="#{intervenirBean.service.deleteOne(item)}">
+                        <p:confirm header="Confirmation" message="Voulez-vous vraiment retirer cet élément?"/>
+                    </p:commandButton>
+                </p:column>
+
+                <p:rowExpansion>
+                    <p:dataTable editable="true" value="#{controleBean.intervenirs}" lazy="true" var="item"
+                                 rows="1" emptyMessage="Pas d'informations complémentaires"
+                                 style="width: 70%">
+                        <f:facet name="header">
+                            <p:outputLabel value="Informations complémentaires"/>
+                        </f:facet>
+                        <p:ajax event="rowEdit" listener="#{intervenirBean.onRowEdit}" update="@(.notes)"/>
+                        <p:ajax event="rowEditCancel" update="@(.notes)" process="@this"/>
+                        <p:column headerText="Type établissment" style="width: 150px">
+                            <center>
+                                <h:outputText value="#{item.classe.etablissement.typeEtablissement.libelle}"/>
+                            </center>
+                        </p:column>
+                        <p:column headerText="Établissement" style="width: 140px">
+                            <center><h:outputText value="#{item.classe.etablissement.nom}" /></center>
+                        </p:column>
+                        <p:column headerText="Date du contrôle" style="width: 100px">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <center>
+                                        <h:outputText value="#{item.controle.dateRealisation}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </center>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:calendar id="date" mask="99/99/9999" value="#{item.controle.dateRealisation}"
+                                                validatorMessage="La date entrée n'est pas valide." pattern="dd/MM/yyyy"
+                                                required="true" requiredMessage="La date de réalisation du contrôle est obligatoire."
+                                                size="14">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </p:calendar>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Année-Scolaire" style="width: 100px">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <center><h:outputText value="#{item.controle.anneeScolaire.dateDebut} - 
+                                                          #{item.controle.anneeScolaire.dateFin}"/></center>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu id="annee" converter="omnifaces.SelectItemsConverter"
+                                                     required="true" requiredMessage="Choisir l'année-scolaire en cours."
+                                                     value="#{item.controle.anneeScolaire}"
+                                                     class="form-control">
+                                        <f:selectItems value="#{anneeScolaireBean.annees}" var="an" 
+                                                       itemLabel="#{an.dateDebut} - #{an.dateFin}" itemValue="#{an}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Action" style="width: 65px">
+                            <p:rowEditor editTitle="Editer" cancelTitle="Annuler" saveTitle="Valider"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:rowExpansion>
+            </p:dataTable>
+        </div>
+    </h:body>
+</html>
+
+

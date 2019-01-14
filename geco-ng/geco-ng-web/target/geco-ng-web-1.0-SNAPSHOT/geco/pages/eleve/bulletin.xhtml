@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../templates/layout.xhtml">
+
+            <ui:define name="title">
+                Bulletin
+            </ui:define>
+
+            <ui:define name="description">
+                Cette page vous permet d'établir les bulletins des élèves et de les envoyer<br/>aux parents ou tuteurs.
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="ui-g-12 ui-md-12 ui-lg-12 ui-sm-12">
+                    <p:tabView>
+                        <!--Etablissement-->
+                        <p:tab title="Etablir bulletin">
+                            <h:form id="bull">
+                                <p:fieldset>
+                                    <ui:include src="/geco/pages/eleve/tab-field-etablir.xhtml"/>
+                                    <br/>
+                                    <p:toolbar>
+                                        <f:facet name="left">
+                                            <p:commandButton icon="fa fa-files-o" value="Etablir bulletin" 
+                                                             action="#{eleveBean.addBulletin()}"/>
+                                            <p:commandButton icon="fa fa-ban" value="Annuler" immediate="true" process="@this"
+                                                             action="#{eleveBean.init()}"/>
+                                        </f:facet>
+                                    </p:toolbar>
+                                </p:fieldset>
+                                <ui:include src="/geco/dialog/dlgAffichePdf.xhtml"/>
+                            </h:form>
+                        </p:tab>
+                        <!--Envoi-->
+                        <p:tab title="Envoi de bulletin">
+                            <h:form>
+                                <p:fieldset>
+                                    <ui:include src="/geco/pages/eleve/tab-field-envoi.xhtml"/>
+                                    <br/>
+                                    <p:toolbar>
+                                        <f:facet name="left">
+                                            <p:commandButton icon="fa fa-send" value="Envoyer" action="#{eleveBean.send()}"
+                                                             process="@form emailDlg" />
+                                            <p:commandButton icon="fa fa-ban" value="Annuler" immediate="true" process="@this"
+                                                             action="#{eleveBean.init()}"/>
+                                        </f:facet>
+                                    </p:toolbar>
+                                </p:fieldset>
+                            </h:form>
+                        </p:tab>
+                    </p:tabView>
+                    <ui:include src="/geco/pages/eleve/dialogs/emailDlg.xhtml"/>
+                    <ui:include src="/geco/pages/eleve/dialogs/bulletinDlg.xhtml"/>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

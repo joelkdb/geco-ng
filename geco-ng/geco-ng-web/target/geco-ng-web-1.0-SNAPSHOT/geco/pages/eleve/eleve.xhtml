@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../templates/layout.xhtml">
+
+            <ui:define name="title">
+                Enregistrement d'un élève
+            </ui:define>
+
+            <ui:define name="description">
+                Cette page vous permet de d'enregistrer les élèves dont les parents sont abonnés.
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form>
+                    <div class="ui-g-12 ui-md-12 ui-lg-12 ui-sm-12">
+                        <p:fieldset legend="Ajouter un élève" toggleable="true" toggleSpeed="500"
+                                    style="background-color: #eff7fb">
+                            <p:outputPanel styleClass="eleveField">
+                                <ui:include src="/geco/pages/eleve/field.xhtml"/>
+                            </p:outputPanel>
+                            <p:toolbar>
+                                <f:facet name="left">
+                                    <p:commandButton icon="fa fa-save" value="Enregister" update="@form @(.eleves)"
+                                                     action="#{eleveBean.add()}" disabled="#{eleveBean.disableAdd}"
+                                                     process="@form">
+                                        <p:confirm header="Confirmation" message="Voulez-vous enregistrer ces informations?"
+                                                   icon="ui-icon-alert"/>
+                                    </p:commandButton>
+                                    <p:commandButton icon="fa fa-ban" value="Annuler" action="#{eleveBean.init()}"
+                                                     update="@form"/>
+                                    <p:commandButton icon="fa fa-pencil" value="Modifier" 
+                                                     disabled="#{eleveBean.disableUpdate}" process="@form"
+                                                     action="#{eleveBean.update()}" update="@form @(.eleves)"/>
+                                </f:facet>
+                            </p:toolbar>
+                        </p:fieldset>
+                    </div>
+                </h:form>
+                <h:form>
+                    <p:fieldset legend="Listes des élèves" toggleable="true" toggleSpeed="500"
+                                style="background-color: #eff7fb">
+                        <ui:include src="/geco/pages/eleve/list.xhtml"/>
+                    </p:fieldset>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

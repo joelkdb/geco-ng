@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/geco/templates/layout.xhtml">
+            <ui:define name="title">
+                Période
+            </ui:define>
+            
+            <ui:define name="description">
+                Cette pages vous permet de parmétrer les périodes liées à une année-académique<br/>
+                Ex : 1er Semestre etc.
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="ui-g-12">
+                    <h:form style="padding-top: 10px">
+                        <p:fieldset legend="Créer une période" toggleable="true" toggleSpeed="500"
+                                    id="periodeField" styleClass="periodeField">
+                            <div class="ui-g">
+                                <h:inputHidden id="id" value="#{periodeBean.entity.id}" />
+                                <div class="ui-g-4">
+                                    <div class="ui-g-4" style="padding-top: 10px">
+                                        <p:outputLabel for="libelle" value="Designation :" class="form-control"/><br/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText id="libelle" placeholder="Trimestre 1, Semestre 1, ..." 
+                                                     value="#{periodeBean.entity.libelle}" required="true"
+                                                     class="form-control" requiredMessage="La désignation de la période est obligatoire.">
+                                        </p:inputText>
+                                    </div>
+                                </div>
+                                <div class="ui-g-4">
+                                    <div class="ui-g-4" style="padding-top: 10px">
+                                        <p:outputLabel for="anne" value="Année Scolaire :" class="form-control"/><br/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:selectOneMenu converter="omnifaces.SelectItemsConverter" id="anne" 
+                                                         value="#{periodeBean.entity.anneeScolaire}" required="true"
+                                                         requiredMessage="Sélectionner une année scolaire.">
+                                            <f:selectItem itemLabel="Sélectionnez l'Année Scolaire"
+                                                          itemValue="#{null}" noSelectionOption="true" /> 
+                                            <f:selectItems value="#{anneeScolaireBean.annees}" var="item"
+                                                           itemLabel="#{item.libelle}" itemValue="#{item}"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12">
+                                    <p:commandButton value="Enregistrer" icon="fa fa-save"
+                                                     action="#{periodeBean.add()}" update="@form @(.periode)"
+                                                     disabled="#{periodeBean.disableSave}" process="@form"/>
+
+                                    <p:commandButton value="Annuler" icon="fa fa-remove"
+                                                     action="#{periodeBean.init()}" 
+                                                     update="@form" immediate="true" process="@this"/>
+
+                                    <p:commandButton value="Modifier" icon="fa fa-edit"
+                                                     action="#{periodeBean.update()}" update="@form @(.periode) @(.periodeField)" 
+                                                     disabled="#{periodeBean.disableEdit}" process="@form"/>
+                                </div>
+                            </div>                      
+                        </p:fieldset>
+                    </h:form>
+                    <h:form style="padding-top: 10px">
+                        <p:fieldset legend="Liste des année scolaire" toggleable="true" toggleSpeed="500">
+                            <p:dataTable var="item" value="#{periodeBean.model}" id="periode" styleClass="periode"
+                                         reflow="true" rows="5" paginator="true" lazy="true" rowKey="#{item.id}"
+                                         emptyMessage="Liste vide.">
+                                <p:column headerText="Nom de la Période">
+                                    <h:outputText value="#{item.libelle}" />
+                                </p:column>
+
+                                <p:column headerText="Année Scolaire">
+                                    <center> 
+                                        <h:outputText value="#{item.anneeScolaire.libelle}" />   
+                                    </center>
+                                </p:column>
+
+                                <p:column headerText="Actions">
+                                    <center> 
+                                        <p:commandButton title="#{msg['core.components.datatable.operations.edit']}"
+                                                         action="#{periodeBean.setEntity(item)}"
+                                                         icon="fa fa-edit" update="@(.periodeField)"/>
+                                        <p:commandButton title="#{msg['core.components.datatable.operations.delete']}"
+                                                         icon="fa fa-remove" action="#{periodeBean.delete(item)}"
+                                                         process="@(.periode)" update="@(.periode)">
+                                            <p:confirm header="Confirmation" icon="ui-icon-alert" 
+                                                       message="#{msg['core.components.datatable.operations.delete.confirmmessage']}"/>
+                                        </p:commandButton>
+                                    </center>
+                                </p:column>
+                            </p:dataTable>
+                        </p:fieldset>
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

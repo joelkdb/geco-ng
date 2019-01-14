@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="carte" pageWidth="297" pageHeight="421" whenNoDataType="AllSectionsNoDetail" columnWidth="297" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0284140c-f5db-4bed-a280-fae4d62147e5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="nomEtablissement" class="java.lang.String"/>
+	<parameter name="nomPrenom" class="java.lang.String"/>
+	<parameter name="telEtab" class="java.lang.String"/>
+	<parameter name="bpEtab" class="java.lang.String"/>
+	<parameter name="dateNaiss" class="java.lang.String"/>
+	<parameter name="lieu" class="java.lang.String"/>
+	<parameter name="sexe" class="java.lang.String"/>
+	<parameter name="classe" class="java.lang.String"/>
+	<parameter name="nationalite" class="java.lang.String"/>
+	<parameter name="matri" class="java.lang.String"/>
+	<parameter name="telElev" class="java.lang.String"/>
+	<parameter name="annee" class="java.lang.String"/>
+	<parameter name="image" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="87">
+			<rectangle>
+				<reportElement x="0" y="0" width="297" height="86" uuid="beb4ca3c-76c0-42ae-96c6-20140af77a0f"/>
+				<graphicElement>
+					<pen lineWidth="1.75" lineColor="#993300"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement x="10" y="3" width="83" height="82" uuid="ad7a9d63-77cb-4ff2-aa65-6756d08542b7"/>
+				<imageExpression><![CDATA["/home/joelkdb/NetBeansProjects/geco-ng/geco-ng-web/src/main/webapp/resources/images/2017-10-09-14-07-50--1052460137.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="95" y="11" width="179" height="28" uuid="d335b048-c263-4ca7-83e0-e59529fa8c94"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Lucida Sans" size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomEtablissement}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="208" y="37" width="78" height="20" uuid="ba4ae0fc-e30e-4c66-b1e2-6f45e1c3534e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{telEtab}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="102" y="37" width="28" height="20" uuid="8f7ab3a3-4c33-4879-9804-e2495a6225d6"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Lucida Sans" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BP : ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="127" y="37" width="33" height="20" uuid="22c2c726-3c4a-4d80-8e2e-17ccab7b48b7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bpEtab}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="160" y="37" width="70" height="20" uuid="9b60855f-f5e7-435c-ae11-a924716210f7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tél :+228]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="99" y="57" width="182" height="28" uuid="0dcc2765-bb19-435d-85b1-509a5e4f5175"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="URW Chancery L" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[République Togolaise]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="255">
+			<rectangle>
+				<reportElement x="0" y="1" width="297" height="73" uuid="bf5fa52a-6860-4353-bf70-402682fe9c5f"/>
+				<graphicElement>
+					<pen lineStyle="Dashed" lineColor="#993300"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="7" y="11" width="233" height="27" forecolor="#CC0000" uuid="e84eb386-732e-4da9-9ba0-44dd321841cc"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="URW Chancery L" size="16" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[CARTE D'IDENTITÉ SCOLAIRE]]></text>
+			</staticText>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="240" y="0" width="57" height="74" uuid="7673463c-437a-4533-82f9-1264d4a8a24a"/>
+				<imageExpression><![CDATA["/home/joelkdb/NetBeansProjects/geco-ng/geco-ng-web/src/main/webapp/resources/images/images-53.jpeg"]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement x="10" y="44" width="212" height="20" uuid="483c32d5-445a-4556-9ae8-afb50cd6dfa6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomPrenom}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="79" width="54" height="20" uuid="2068dc04-9cde-4e08-849e-da0a5f4c4251"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="URW Chancery L" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Né(e) le ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="212" width="28" height="20" uuid="273f7413-32c8-4474-a1aa-dd413c529889"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="URW Chancery L" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tél: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="145" width="80" height="20" uuid="4c7e5cdd-cb57-4d23-9335-b837dc5962d4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="URW Chancery L" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nationalité: ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="10" y="232" width="100" height="20" forecolor="#CC0000" uuid="4cb42b8d-5dfb-4c25-8b88-61abeb0d231f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{annee}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="136" y="79" width="11" height="20" uuid="694a7026-23af-496d-9a8e-7af9dd987e1c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="URW Chancery L" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[à]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="190" width="54" height="20" forecolor="#3333FF" uuid="b786f989-e799-44bd-b929-71a2221b6c5a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="URW Chancery L" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° Mle: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="123" width="51" height="20" uuid="718bd6e8-ec4d-4a04-9cb7-806f562dff2b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="URW Chancery L" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Classe: ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="38" y="212" width="100" height="20" uuid="df6d64b4-12a6-48f6-bc0f-c90f3643b900"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="URW Chancery L" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{telElev}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="61" y="123" width="86" height="20" uuid="64d690dd-1725-44e5-8046-7637d49d6405"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="URW Chancery L" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{classe}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="58" y="100" width="53" height="20" uuid="ef576bb2-f212-41d1-8719-532c933ca8e3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="URW Chancery L" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{sexe}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="10" y="167" width="100" height="20" uuid="c4388b5b-ab86-4e1b-8489-2fd477b36b27"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nationalite}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="62" y="79" width="75" height="20" uuid="a028a204-92ca-4fc2-bab0-485559aac168"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="URW Chancery L" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dateNaiss}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="100" width="47" height="20" uuid="a4120561-f69c-4588-b7d8-98c2a8bb785b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="URW Chancery L" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sexe: ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="64" y="190" width="83" height="20" forecolor="#3333FF" uuid="ebcd0fb0-5ad6-4538-9642-68422617f38b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="URW Chancery L" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{matri}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="146" y="79" width="100" height="20" uuid="28ac072a-37cd-4829-a156-2025042a5257"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="URW Chancery L" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{lieu}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" onErrorType="Blank">
+				<reportElement x="164" y="103" width="127" height="142" uuid="94bc8f87-61ad-4bb9-958d-1be95e90cfa0"/>
+				<imageExpression><![CDATA[$P{image}]]></imageExpression>
+			</image>
+		</band>
+	</columnHeader>
+	<pageFooter>
+		<band height="60">
+			<rectangle>
+				<reportElement x="0" y="0" width="297" height="60" uuid="b12b60a8-207b-4d08-8469-4798d0f0bd36"/>
+				<graphicElement>
+					<pen lineWidth="1.75" lineColor="#993300"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="9" y="7" width="213" height="20" uuid="95f83ebd-1086-4a3f-952a-d3973792d9eb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Signature du proviseur (Directeur) : ]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

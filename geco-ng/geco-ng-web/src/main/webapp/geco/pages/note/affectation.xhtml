@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../templates/layout.xhtml">
+
+            <ui:define name="title">
+                Création et affectation d'une note
+            </ui:define>
+
+            <ui:define name="description">
+                Cette page vous permet de créer une nouvelle note et de l'affecter à un élève.
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="affectation">
+                    <div class="ui-g-12 ui-md-12 ui-lg-12 ui-sm-12">
+                        <p:fieldset legend="Filtre d'affectation de notes" toggleable="true" toggleSpeed="500"
+                                    style="background-color: #eff7fb">
+                            <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                        <p:outputLabel value="Type d'établissement :" for="type"/>
+                                        <p:selectOneMenu id="type" class="form-control"
+                                                         converter="omnifaces.SelectItemsConverter"
+                                                         title="Sélectionner un type d'établissement"
+                                                         required="true" requiredMessage="Sélectionner un type d'établissement."
+                                                         filter="true" filterMatchMode="startsWith">
+                                            <f:selectItem itemLabel="Sélectionner un type d'établissement" 
+                                                          itemValue="#{null}" noSelectionOption="true"/>
+                                            <f:selectItems value="#{etablissementBean.typesEtablissement}" var="type"
+                                                           itemLabel="#{type.libelle}" itemValue="#{type}"/>
+                                            <p:ajax event="itemSelect" listener="#{controleBean.onTypeSelect}" 
+                                                    update="etablissement"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                        <p:outputLabel value="Établissement :" for="etablissement"/>
+                                        <p:selectOneMenu id="etablissement" class="form-control" 
+                                                         converter="omnifaces.SelectItemsConverter"
+                                                         required="true" requiredMessage="Choisir un établissement."
+                                                         filter="true" filterMatchMode="startsWith">
+                                            <f:selectItem itemLabel="Sélectionner un établissement" itemValue="#{null}"
+                                                          noSelectionOption="true"/>
+                                            <f:selectItems value="#{controleBean.etablissements}" var="etab"
+                                                           itemLabel="#{etab.nom}" itemValue="#{etab}"/>
+                                            <p:ajax event="itemSelect" listener="#{controleBean.onEtablissementSelect}" 
+                                                    update="classe"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-lg-4">
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                        <p:outputLabel value="Classe :" for="classe"/>
+                                        <p:selectOneMenu id="classe" class="form-control" required="true"
+                                                         converter="omnifaces.SelectItemsConverter"
+                                                         value="#{controleBean.classe}" requiredMessage="Choisir une classe."
+                                                         filter="true" filterMatchMode="startsWith">
+                                            <f:selectItem itemLabel="Sélectionner une classe" itemValue="#{null}"
+                                                          noSelectionOption="true"/>
+                                            <f:selectItems value="#{controleBean.classes}" var="classe"
+                                                           itemLabel="#{classe.libelle} (#{classe.serie1})" itemValue="#{classe}"/>
+                                            <p:ajax event="itemSelect" listener="#{controleBean.onClasseSelect}" 
+                                                    update="matiere"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                            </div>
+                            <ui:remove>
+                                <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <p:outputLabel value="Elèves :" for="eleves"/>
+                                            <p:selectOneMenu id="eleves" class="form-control"
+                                                             converter="omnifaces.SelectItemsConverter" required="true"
+                                                             title="Sélectionner un élève" requiredMessage="Choisir un élève."
+                                                             value="#{controleBean.eleve}" filter="true" filterMatchMode="startsWith">
+                                                <f:selectItem itemLabel="Sélectionner un élève" 
+                                                              itemValue="#{null}" noSelectionOption="true"/>
+                                                <f:selectItems value="#{controleBean.eleves}" var="el"
+                                                               itemLabel="#{el.nom} #{el.prenom}" itemValue="#{el}"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ui:remove>
+                            <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                        <p:outputLabel value="Matière :" for="matiere"/>
+                                        <p:selectOneMenu id="matiere" class="form-control" required="true"
+                                                         converter="omnifaces.SelectItemsConverter"
+                                                         requiredMessage="Choisir une matière."
+                                                         value="#{controleBean.matiere}" filter="true" filterMatchMode="startsWith">
+                                            <f:selectItem itemLabel="Sélectionner une matière" itemValue="#{null}"
+                                                          noSelectionOption="true"/>
+                                            <f:selectItems value="#{controleBean.matieres}" var="mat"
+                                                           itemLabel="#{mat.libelle}(Coef : #{mat.coefficient})" itemValue="#{etab}"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-lg-4">
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                        <p:outputLabel value="Professeur :" for="prof"/>
+                                        <p:selectOneMenu id="prof" class="form-control" required="true"
+                                                         converter="omnifaces.SelectItemsConverter"
+                                                         requiredMessage="Choisir un professeur."
+                                                         value="#{controleBean.professeur}" filter="true" filterMatchMode="startsWith">
+                                            <f:selectItem itemLabel="Sélectionner un professeur" itemValue="#{null}"
+                                                          noSelectionOption="true"/>
+                                            <f:selectItems value="#{professeurBean.professeurs}" var="prof"
+                                                           itemLabel="#{prof.nom} #{prof.prenom}" itemValue="#{prof}"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                        <p:outputLabel value="Type Controle :" for="typeCtrl"/>
+                                        <p:selectOneMenu id="typeCtrl" class="form-control"
+                                                         converter="omnifaces.SelectItemsConverter"
+                                                         title="Sélectionner le type de contrôle" required="true"
+                                                         requiredMessage="Le type de contrôle est obligatoire."
+                                                         value="#{controleBean.entity.typeControle}"
+                                                         filter="true" filterMatchMode="startsWith">
+                                            <f:selectItem itemLabel="Sélectionner un type de contrôle" 
+                                                          itemValue="#{null}" noSelectionOption="true"/>
+                                            <f:selectItems value="#{typeControleBean.typeControles}" var="tc"
+                                                           itemLabel="#{tc.libelle}" itemValue="#{tc}"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                        <p:outputLabel value="Contrôle effectué le :" for="date"/>
+                                        <br/>
+                                        <p:calendar id="date" mask="99/99/9999" value="#{controleBean.entity.dateRealisation}"
+                                                    validatorMessage="La date entrée n'est pas valide." pattern="dd/MM/yyyy"
+                                                    required="true" requiredMessage="La date de réalisation du contrôle est obligatoire."
+                                                    size="14" maxdate="#{professeurBean.now}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </p:calendar>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                        <p:outputLabel value="Libellé du contrôle :" for="libelle"/>
+                                        <p:inputText value="#{controleBean.entity.libelle}" required="true" id="libelle"
+                                                     requiredMessage="Le libellé de contrôle est obligatoire."/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-lg-4">
+                                <div class="ui-g">
+                                    <ui:remove>
+                                        <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                            <p:outputLabel value="Note du contrôle :" for="note"/>
+                                            <br/>
+                                            <p:inputNumber  id="note" size="5" maxlength="2" value="#{controleBean.entity.note}"
+                                                            required="true" requiredMessage="La note de contrôle est obligatoire."
+                                                            maxValue="20" minValue="0" decimalPlaces="0" >
+                                            </p:inputNumber>
+                                        </div>
+                                    </ui:remove>
+                                    <div class="ui-g-12 ui-md-6 ui-lg-8">
+                                        <p:outputLabel value="Année-Scolaire :" for="annee"/>
+                                        <p:selectOneMenu id="annee" converter="omnifaces.SelectItemsConverter"
+                                                         required="true" requiredMessage="Choisir l'année-scolaire en cours."
+                                                         value="#{controleBean.entity.anneeScolaire}"
+                                                         class="form-control">
+                                            <f:selectItem itemLabel="L'année-scolaire en cours" itemValue="#{null}"
+                                                          noSelectionOption="true"/>
+                                            <f:selectItems value="#{anneeScolaireBean.annees}" var="an" 
+                                                           itemLabel="#{an.dateDebut} - #{an.dateFin}" itemValue="#{an}"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                            </div>
+                            <ui:remove>
+                                <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <p:outputLabel value="Mention :" for="mention"/>
+                                            <p:selectOneMenu id="mention" class="form-control"
+                                                             converter="omnifaces.SelectItemsConverter"
+                                                             required="true"
+                                                             requiredMessage="La mention est obligatoire."
+                                                             value="#{controleBean.intervenir.mention}"
+                                                             filter="true" filterMatchMode="startsWith">
+                                                <f:selectItem itemLabel="Sélectionner une mention" 
+                                                              itemValue="#{null}" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="Médiocre" itemValue="Médiocre"/>
+                                                <f:selectItem itemLabel="Très Faible" itemValue="Très Faible"/>
+                                                <f:selectItem itemLabel="Faible" itemValue="Faible"/>
+                                                <f:selectItem itemLabel="Passable" itemValue="Passable"/>
+                                                <f:selectItem itemLabel="Assez - Bien" itemValue="Assez - Bien"/>
+                                                <f:selectItem itemLabel="Bien" itemValue="Bien"/>
+                                                <f:selectItem itemLabel="Très Bien" itemValue="Très Bien"/>
+                                                <f:selectItem itemLabel="Excellent" itemValue="Excellent"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ui:remove>
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:toolbar>
+                                    <f:facet name="left">
+                                        <p:commandButton icon="fa fa-save" value="Enregister" 
+                                                         action="#{controleBean.add()}" process="@form">
+                                            <p:confirm header="Confirmation" message="Voulez-vous enregistrer ces informations?"
+                                                       icon="ui-icon-alert"/>
+                                        </p:commandButton>
+                                        <p:commandButton icon="fa fa-ban" value="Annuler" action="#{controleBean.init()}"
+                                                         update="@form" immediate="true" process="@this"/>
+                                    </f:facet>
+                                </p:toolbar>
+                            </div>
+                        </p:fieldset>
+                    </div>
+                    <ui:include src="/geco/pages/note/dialogs/succesDlg.xhtml"/>
+                </h:form>
+                <h:form id="listAffectation">
+                    <!--                    <p:fieldset legend="Liste des élèves avec leurs notes" 
+                                                    toggleable="true" toggleSpeed="500" style="background-color: #eff7fb">-->
+                    <ui:include src="/geco/pages/note/dialogs/listAffectation-2.xhtml"/>    
+                    <!--</p:fieldset>-->
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

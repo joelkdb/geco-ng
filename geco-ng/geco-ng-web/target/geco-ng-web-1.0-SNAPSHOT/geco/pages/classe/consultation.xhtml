@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../templates/layout.xhtml">
+
+            <ui:define name="title">
+                Consultation des classes
+            </ui:define>
+
+            <ui:define name="description">
+                Cette page vous permet de consulter toutes classes possibles et par établissement.
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form>
+                    <div class="ui-g-12 ui-md-12 ui-lg-12 ui-sm-12">
+                        <p:fieldset>
+                            <div class="ui-g-12 ui-lg-4"></div>
+                            <div class="ui-g-12 ui-lg-4">
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-6 ui-lg-5">
+                                        <p:outputLabel value="Établissement :"/>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-6 ui-lg-7">
+                                        <p:selectOneMenu id="etablissement" class="form-control" 
+                                                         converter="omnifaces.SelectItemsConverter">
+                                            <f:selectItem itemLabel="Sélectionner un établissement" itemValue="#{null}"
+                                                          noSelectionOption="true"/>
+                                            <f:selectItems value="#{etablissementBean.etablissements}" var="etab"
+                                                           itemLabel="#{etab.nom}" itemValue="#{etab}"/>
+                                            <p:ajax event="itemSelect" listener="#{classeBean.onSelectEtablissement}" 
+                                                    update="@form"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-lg-4"></div>
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:dataTable id="classes" styleClass="classes" 
+                                             value="#{classeBean.classes}" var="item" rows="10"
+                                             emptyMessage="Liste vide">
+                                    <f:facet name="header">
+                                        <h:outputText value="Toutes les classes de : #{classeBean.etablissement.nom}"/>
+                                    </f:facet>
+
+                                    <p:column headerText="Libellé de la classe" filterBy="#{item.libelle}" sortBy="#{item.libelle}">
+                                        <center>
+                                            <h:outputText value="#{item.libelle}"/>
+                                        </center>
+                                    </p:column>
+
+                                    <p:column headerText="Établissement" rendered="#{classeBean.columnRendered}"
+                                              filterBy="#{item.etablissement.nom}" sortBy="#{classeBean.etablissement.nom}">
+                                        <center>
+                                            <h:outputText value="#{item.etablissement.nom}"/>
+                                        </center>
+                                    </p:column>
+
+                                    <p:column headerText="Type établissment">
+                                        <center>
+                                            <h:outputText value="#{item.etablissement.typeEtablissement.libelle}"/>
+                                        </center>
+                                    </p:column>
+
+                                    <p:column headerText="Série">
+                                        <center>
+                                            <h:outputText value="#{item.serie1}"/>
+                                        </center>
+                                    </p:column>
+
+                                    <f:facet name="footer">
+                                        <h:outputText value="Nombre de classes : #{classeBean.classes.size()}"/>
+                                    </f:facet>
+                                </p:dataTable>
+                            </div>
+                        </p:fieldset>
+                    </div>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

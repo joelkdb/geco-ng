@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../templates/layout.xhtml">
+
+            <ui:define name="title">
+                Consultation des élèves
+            </ui:define>
+
+            <ui:define name="description">
+                Cette page vous permet de visualiser les élèves d'une classe<br/>
+                d'un établissement donné.
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form>
+                    <div class="ui-g-12 ui-md-12 ui-lg-12 ui-sm-12">
+                        <p:fieldset>
+                            <p:fieldset legend="Filtre/Recherche d'élève">
+                                <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <p:outputLabel value="Type d'établissement :"/>
+                                            <p:selectOneMenu id="type" class="form-control"
+                                                             converter="omnifaces.SelectItemsConverter"
+                                                             title="Sélectionner un type d'établissement">
+                                                <f:selectItem itemLabel="Sélectionner un type d'établissement" 
+                                                              itemValue="#{null}" noSelectionOption="true"/>
+                                                <f:selectItems value="#{etablissementBean.typesEtablissement}" var="type"
+                                                               itemLabel="#{type.libelle}" itemValue="#{type}"/>
+                                                <p:ajax event="itemSelect" listener="#{eleveBean.onTypeSelect}" 
+                                                        update="etablissement"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <p:outputLabel value="Établissement :"/>
+                                            <p:selectOneMenu id="etablissement" class="form-control" 
+                                                             converter="omnifaces.SelectItemsConverter">
+                                                <f:selectItem itemLabel="Sélectionner un établissement" itemValue="#{null}"
+                                                              noSelectionOption="true"/>
+                                                <f:selectItems value="#{eleveBean.etablissements}" var="etab"
+                                                               itemLabel="#{etab.nom}" itemValue="#{etab}"/>
+                                                <p:ajax event="itemSelect" listener="#{eleveBean.onEtablissementSelect}" 
+                                                        update="classe eleves"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-lg-4">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <p:outputLabel value="Classe :"/>
+                                            <p:selectOneMenu id="classe" class="form-control" 
+                                                             converter="omnifaces.SelectItemsConverter">
+                                                <f:selectItem itemLabel="Sélectionner une classe" itemValue="#{null}"
+                                                              noSelectionOption="true"/>
+                                                <f:selectItems value="#{eleveBean.classes}" var="classe"
+                                                               itemLabel="#{classe.libelle}" itemValue="#{classe}"/>
+                                                <p:ajax event="itemSelect" listener="#{eleveBean.onClasseSelect}" 
+                                                        update="eleves"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:fieldset>
+                            <br/>
+                            <p:dataTable id="eleves" lazy="true" value="#{eleveBean.eleves}" paginator="true"
+                                         var="item" rowKey="#{item.code}" sortBy="#{item.code}" sortOrder="descending"
+                                         emptyMessage="Liste vide" rows="10" styleClass="eleves">
+                                <f:facet name="header">
+                                    <h:outputText value="#{eleveBean.headerLabel}"/>
+                                </f:facet>
+                                <p:column style="width:30px">
+                                    <p:rowToggler />
+                                </p:column>
+
+                                <p:column headerText="Nom/Prénom(s) élève" filterBy="#{item.nom}"
+                                          sortBy="#{item.nom} #{item.prenom}">
+                                    <h:outputText value="#{item.nom} #{item.prenom}"/>
+                                </p:column>
+
+                                <p:column headerText="Sexe" style="width: 40px">
+                                    <h:outputText value="#{item.sexe}"/>
+                                </p:column>
+
+                                <p:column headerText="Né(e) le" style="width: 85px">
+                                    <h:outputText value="#{item.dateNaissance}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Nom/Prénom(s) tuteur" filterBy="#{item.nomParent}"
+                                          sortBy="#{item.nomParent} #{item.prenomParent}">
+                                    <h:outputText value="#{item.nomParent} #{item.prenomParent}"/>
+                                </p:column>
+
+                                <p:column headerText="Téléphone">
+                                    <h:outputText value="#{item.portableParent1}/#{item.portableParent2}"/>
+                                </p:column>
+
+                                <p:column headerText="Adresse tuteur">
+                                    <h:outputText value="#{item.adresseParent}"/>
+                                </p:column>
+
+                                <p:column headerText="Email tuteur">
+                                    <h:outputText value="#{item.emailParent}"/>
+                                </p:column>
+
+                                <p:column headerText="Abonné" style="width: 55px" sortBy="#{item.abonne}">
+                                    <center>
+                                        <h:outputText value="#{item.abonne1}"/>
+                                    </center>
+                                </p:column>
+
+                                <p:column headerText="Actions" style="width: 90px">
+                                    <center>
+                                        <p:commandButton title="#{msg['core.components.datatable.operations.edit']}"
+                                                         icon="fa fa-edit" action="#{eleveBean.setEntity(item)}"
+                                                         update="@(.eleveField)" immediate="true"/>
+                                        <p:commandButton title="#{msg['core.components.datatable.operations.delete']}"
+                                                         icon="fa fa-remove" process="@form" update="@form"
+                                                         action="#{eleveBean.delete(item)}" immediate="true">
+                                            <p:confirm header="Confirmation" icon="ui-icon-alert" 
+                                                       message="#{msg['core.components.datatable.operations.delete.confirmmessage']}"/>
+                                        </p:commandButton>
+                                    </center>
+                                </p:column>
+                                <p:rowExpansion>
+                                    <p:panelGrid columns="2" style="width: 300px">
+                                        <f:facet name="header">
+                                            <p:outputLabel value="Informations sur l'établissement de provenance"/>
+                                        </f:facet>
+
+                                        <h:outputText value="Type établissment :" />
+                                        <h:outputText value="#{item.classe.etablissement.typeEtablissement.libelle}" />
+
+                                        <h:outputText value="Établissement :" />
+                                        <h:outputText value="#{item.classe.etablissement.nom}" />
+
+                                        <h:outputText value="Classe :" />
+                                        <h:outputText value="#{item.classe.libelle}"/>
+
+                                        <h:outputText value="Série :" />
+                                        <h:outputText value="#{item.classe.serie1}" />
+                                    </p:panelGrid>
+                                </p:rowExpansion>
+                                <f:facet name="footer">
+                                    <h:outputText value="Nombre d'élèves : #{eleveBean.eleves.size()}"/>
+                                </f:facet>
+                            </p:dataTable>
+                        </p:fieldset>
+                    </div>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

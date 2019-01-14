@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../templates/layout.xhtml">
+
+            <ui:define name="title">
+                Établissement des cartes des élèves
+            </ui:define>
+
+            <ui:define name="description">
+                Cette page vous permet d'établir les cartes des élèves déjà inscrient ou non.
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form>
+                    <div class="ui-g-12 ui-md-12 ui-lg-12 ui-sm-12">
+                        <p:fieldset id="elvelFields">
+                            <div class="ui-g-12 ui-md-6 ui-lg-4" style="padding-top: 160px;">
+                                <p:selectBooleanCheckbox itemLabel="Élève déjà inscrit">
+                                    <p:ajax event="change" listener="#{eleveBean.onChangeForCarte()}" update="@form"/>
+                                </p:selectBooleanCheckbox>
+                            </div>
+                            <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                <h:panelGrid columns="2">
+                                    <p:outputLabel value="Élève :" for="eleve" rendered="#{eleveBean.rendered1}"/>
+                                    <p:selectOneMenu id="eleve" converter="omnifaces.SelectItemsConverter" 
+                                                     rendered="#{eleveBean.rendered1}"
+                                                     filter="true" filterMatchMode="startsWith" autoWidth="false">
+                                        <f:selectItem itemLabel="Sélectionner un élève" itemValue="#{null}"
+                                                      noSelectionOption="true"/>
+                                        <f:selectItems value="#{eleveBean.eleves1}" var="el" itemLabel="#{el.nom} 
+                                                       #{el.prenom}" itemValue="#{el}"/>
+                                        <p:ajax event="itemSelect" listener="#{eleveBean.onEleveSelect}" update="classe etab"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Nom : " for="nom" rendered="#{eleveBean.rendered}"/>
+                                    <p:inputText id="nom" required="true" requiredMessage="Le nom est obligatoire."
+                                                 rendered="#{eleveBean.rendered}" value="#{eleveBean.nomEleve}"/>
+
+                                    <p:outputLabel value="Prénom(s) : " for="prenom" rendered="#{eleveBean.rendered}"/>
+                                    <p:inputText id="prenom" required="true" requiredMessage="Le prénom est obligatoire."
+                                                 rendered="#{eleveBean.rendered}" value="#{eleveBean.prenomEleve}"/>
+
+                                    <p:outputLabel value="Né(e) le : " for="date" rendered="#{eleveBean.rendered}"/>
+                                    <p:calendar id="date" mask="99/99/9999" value="#{eleveBean.dateNaissance}"
+                                                validatorMessage="La date entrée n'est pas valide." pattern="dd/MM/yyyy"
+                                                required="true" requiredMessage="La date de naissance est obligatoire."
+                                                size="14" maxdate="#{professeurBean.now}" rendered="#{eleveBean.rendered}">
+                                    </p:calendar>
+
+                                    <p:outputLabel value="Lieu naissance : " for="lieu"/>
+                                    <p:inputText id="lieu" required="true" requiredMessage="Le lieu de naissance est obligatoire."
+                                                 value="#{eleveBean.lieuNaissance}"/>
+                                    
+                                    <p:outputLabel value="Sexe :" for="sexe" rendered="#{eleveBean.rendered}"/>
+                                    <p:selectOneMenu id="sexe" rendered="#{eleveBean.rendered}" 
+                                                     value="#{eleveBean.sexe}"
+                                                     required="true">
+                                        <f:selectItem itemLabel="MASCULIN" itemValue="M"/>
+                                        <f:selectItem itemLabel="FÉMININ" itemValue="F"/>
+                                    </p:selectOneMenu>
+                                    
+                                    <p:outputLabel value="Classe : " for="classe"/>
+                                    <p:inputText id="classe" required="true" requiredMessage="Le classe est obligatoire."
+                                                 readonly="#{eleveBean.readonly}" value="#{eleveBean.classe}"/>
+                                    
+                                    <p:outputLabel value="Etablissement : " for="etab" rendered="#{eleveBean.rendered1}"/>
+                                    <p:inputText id="etab" required="true" rendered="#{eleveBean.rendered1}"
+                                                 value="#{eleveBean.entity.classe.etablissement.nom}" disabled="true"/>
+
+                                    <p:outputLabel value="Nationalité : " for="nat" rendered="#{eleveBean.rendered}"/>
+                                    <p:inputText id="nat" required="true" requiredMessage="La nationalité est obligatoire."
+                                                 rendered="#{eleveBean.rendered}" value="#{eleveBean.nationalite}"/>
+
+                                    <p:outputLabel value="N° mle : " for="matricule"/>
+                                    <p:inputText id="matricule" required="true" requiredMessage="Le matricule est obligatoire."
+                                                 value="#{eleveBean.matricule}"/>
+
+                                    <p:outputLabel value="Téléphone : " for="tel"/>
+                                    <p:inputText id="tel" required="true" requiredMessage="Le numéro de téléphone est obligatoire."
+                                                 value="#{eleveBean.telephone}">
+                                        <p:keyFilter regEx="/[\d]/"/>
+                                    </p:inputText>
+
+                                    <p:outputLabel value="Année-scolaire : " for="annee"/>
+                                    <p:selectOneMenu id="annee" converter="omnifaces.SelectItemsConverter"
+                                                     required="true" requiredMessage="Choisir l'année-scolaire en cours."
+                                                     value="#{eleveBean.anneeScolaire}">
+                                        <f:selectItem itemLabel="L'année-scolaire en cours" itemValue="#{null}"
+                                                      noSelectionOption="true"/>
+                                        <f:selectItems value="#{anneeScolaireBean.annees}" var="an" 
+                                                       itemLabel="#{an.dateDebut} - #{an.dateFin}" itemValue="#{an}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Établissement : " for="etablissement" rendered="#{eleveBean.rendered}"/>
+                                    <p:selectOneMenu id="etablissement" value="#{eleveBean.etablissement}"
+                                                     converter="omnifaces.SelectItemsConverter"
+                                                     required="true" requiredMessage="Choisir un établissement."
+                                                     filter="true" filterMatchMode="startsWith" rendered="#{eleveBean.rendered}">
+                                        <f:selectItem itemLabel="Sélectionner un établissement" itemValue="#{null}"
+                                                      noSelectionOption="true"/>
+                                        <f:selectItems value="#{etablissementBean.etablissements}" var="etab"
+                                                       itemLabel="#{etab.nom}" itemValue="#{etab}"/>
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+                                <br/>
+                                <p:commandButton value="Etablir carte" id="nonInscrit" rendered="#{eleveBean.renderedBtn1}"
+                                                 icon="fa fa-file-o" action="#{eleveBean.exporterCarte1()}" 
+                                                 oncomplete="PF('dialogueAfficherPdf').show();" process="@form" update="@form"/>
+                                <p:commandButton value="Etablir carte" id="inscrit" rendered="#{eleveBean.renderedBtn2}"
+                                                 icon="fa fa-file-o" action="#{eleveBean.exporterCarte2()}" 
+                                                 oncomplete="PF('dialogueAfficherPdf').show();" process="@form" update="@form"/>
+                            </div>
+                            <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                <center>
+                                    <p:fieldset legend="Photo de l'élèves" 
+                                                style="height: 280px;width: 220px;" styleClass="logo">
+                                        <p:commandButton value="Choisir" 
+                                                         onclick="PF('choixLogoDlg').show();" icon="fa fa-photo" immediate="true"/>
+                                        <p:commandButton value="Actualiser" icon="fa fa-refresh" immediate="true"
+                                                         update="@(.logo)"/><br/><br/>
+                                        <p:outputLabel value="#{msga['infoBaseSociete.infoSociete.logoContent']}"/>
+                                        <p:outputPanel styleClass="logo1">
+                                            <p:graphicImage name="images/#{eleveBean.uploadFileName}" height="194" 
+                                                            class="form-control" rendered="#{not empty eleveBean.uploadFileName}"/>
+                                        </p:outputPanel>
+                                    </p:fieldset>
+                                </center>
+                            </div>
+                        </p:fieldset>
+                    </div>
+                    <p:dialog widgetVar="choixLogoDlg" resizable="false" position="center"
+                              header="Choix d'une photo">
+                        <p:fileUpload mode="advanced" dragDropSupport="false" sizeLimit="10485760"
+                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/" cancelLabel="Annuler"
+                                      uploadLabel="Charger" label="Choisir" value="#{eleveBean.photo}"
+                                      fileUploadListener="#{eleveBean.handleFileUpload}"
+                                      invalidFileMessage="Ce type de fichier n'est pas pris en compte."
+                                      invalidSizeMessage="Le fichier ne doit passer 10Mo." fileLimitMessage="Une seul fichier autorisé."
+                                      update="@(.logo)" oncomplete="PF('choixLogoDlg').hide();"/>
+                    </p:dialog>
+                    <ui:include src="/geco/dialog/dlgAffichePdf.xhtml"/>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

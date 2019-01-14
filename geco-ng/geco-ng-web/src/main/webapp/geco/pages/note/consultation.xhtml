@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../templates/layout.xhtml">
+
+            <ui:define name="title">
+                Consultation de l'affectation des notes
+            </ui:define>
+
+            <ui:define name="description">
+                Cette page vous permet de consulter les notes des élèves par classe ou par<br/>
+                établissement et d'envoyer les email aux tuteurs
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form>
+                    <div class="ui-g-12 ui-md-12 ui-lg-12 ui-sm-12">
+                        <p:fieldset>
+                            <p:fieldset legend="Filtre de consultation des notes d'élèves">
+                                <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <p:outputLabel value="Type d'établissement :"/>
+                                            <p:selectOneMenu id="type" class="form-control"
+                                                             converter="omnifaces.SelectItemsConverter"
+                                                             title="Sélectionner un type d'établissement">
+                                                <f:selectItem itemLabel="Sélectionner un type d'établissement" 
+                                                              itemValue="#{null}" noSelectionOption="true"/>
+                                                <f:selectItems value="#{etablissementBean.typesEtablissement}" var="type"
+                                                               itemLabel="#{type.libelle}" itemValue="#{type}"/>
+                                                <p:ajax event="itemSelect" listener="#{controleBean.onTypeSelect}" 
+                                                        update="etablissement"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <p:outputLabel value="Établissement :"/>
+                                            <p:selectOneMenu id="etablissement" class="form-control" 
+                                                             converter="omnifaces.SelectItemsConverter">
+                                                <f:selectItem itemLabel="Sélectionner un établissement" itemValue="#{null}"
+                                                              noSelectionOption="true"/>
+                                                <f:selectItems value="#{controleBean.etablissements}" var="etab"
+                                                               itemLabel="#{etab.nom}" itemValue="#{etab}"/>
+                                                <p:ajax event="itemSelect" listener="#{controleBean.onEtablissementSelect}" 
+                                                        update="classe"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-lg-4">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <p:outputLabel value="Classe :"/>
+                                            <p:selectOneMenu id="classe" class="form-control" 
+                                                             converter="omnifaces.SelectItemsConverter">
+                                                <f:selectItem itemLabel="Sélectionner une classe" itemValue="#{null}"
+                                                              noSelectionOption="true"/>
+                                                <f:selectItems value="#{controleBean.classes}" var="classe"
+                                                               itemLabel="#{classe.libelle}" itemValue="#{classe}"/>
+                                                <p:ajax event="itemSelect" listener="#{controleBean.onClasseSelect}" 
+                                                        update="matiere"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-lg-4">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <p:outputLabel value="Matière :"/>
+                                            <p:selectOneMenu id="matiere" class="form-control" 
+                                                             converter="omnifaces.SelectItemsConverter"
+                                                             value="#{controleBean.matiere}" filter="true" filterMatchMode="startsWith">
+                                                <f:selectItem itemLabel="Sélectionner une matière" itemValue="#{null}"
+                                                              noSelectionOption="true"/>
+                                                <f:selectItems value="#{controleBean.matieres}" var="mat"
+                                                               itemLabel="#{mat.libelle} (#{mat.coefficient})" itemValue="#{etab}"/>
+                                                <p:ajax event="itemSelect" listener="#{controleBean.onMatiereSelect}" 
+                                                        update="notes"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <p:outputLabel value="Type Controle :" for="typeCtrl"/>
+                                            <p:selectOneMenu id="typeCtrl" class="form-control"
+                                                             converter="omnifaces.SelectItemsConverter"
+                                                             title="Sélectionner le type de contrôle"
+                                                             value="#{controleBean.entity.typeControle}"
+                                                             filter="true" filterMatchMode="startsWith">
+                                                <f:selectItem itemLabel="Sélectionner un type de contrôle" 
+                                                              itemValue="#{null}" noSelectionOption="true"/>
+                                                <f:selectItems value="#{typeControleBean.typeControles}" var="tc"
+                                                               itemLabel="#{tc.libelle}" itemValue="#{tc}"/>
+                                                <p:ajax event="itemSelect" listener="#{controleBean.onTypeControleSelect}" 
+                                                        update="notes"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:fieldset>
+                            <br/>
+                            <ui:include src="/geco/pages/note/list.xhtml"/>
+                        </p:fieldset>
+                    </div>
+                    <ui:include src="/geco/pages/note/dialogs/emailDlg.xhtml"/>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

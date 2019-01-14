@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <div class="ui-g">
+            <div class="ui-g-12 ui-lg-6">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:outputLabel value="Code :" for="code"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:inputText id="code" value="#{classeBean.entity.code}" disabled="true" required="true"
+                                     class="form-control"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:outputLabel value="Etablissement :" for="etablissement"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:selectOneMenu id="etablissement" class="form-control" required="true"
+                                         requiredMessage="Sélectionner un établissement."
+                                         converter="omnifaces.SelectItemsConverter" value="#{classeBean.entity.etablissement}">
+                            <f:selectItem itemLabel="" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{etablissementBean.etablissements}" var="etab" 
+                                           itemLabel="#{etab.nom}" itemValue="#{etab}"/>
+                            <p:ajax event="itemSelect" listener="#{classeBean.onSelectItems}" update="@(.type)"/>
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:outputLabel value="Type d'établissement :" for="type"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:outputPanel styleClass="type">
+                            <p:inputText id="type" value="#{classeBean.typeEtablissement}" required="true" readonly="true"
+                                         class="form-control" placeholder="Ex : Primaire - Collège - Lycée"/>
+                        </p:outputPanel>
+                    </div>
+
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:outputLabel value="Nom classe :" for="nom"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:inputText id="nom" value="#{classeBean.entity.libelle}" required="true" class="form-control"
+                                     requiredMessage="Le nom de la classe est obligatoire." placeholder="Ex : Terminal D1"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:outputLabel value="Série :" for="serie"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:selectOneMenu id="serie" class="form-control" placeholder="Ex : A4 ou D ou Pas de série"
+                                         converter="omnifaces.SelectItemsConverter" value="#{classeBean.entity.serie}">
+                            <f:selectItem itemLabel="Pas de série" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{serieBean.series}" var="serie" 
+                                           itemLabel="#{serie.libelle}" itemValue="#{serie}"/>
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

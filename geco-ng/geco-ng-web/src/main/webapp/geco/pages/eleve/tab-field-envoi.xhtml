@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <div class="ui-g">
+<!--            <div class="ui-g-12 ui-md-6 ui-lg-1">
+                <p:outputLabel value="Envoyé de : " style="font-weight: bold" for="senderMail"/>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-5">
+                <p:inputText id="senderMail" value="{intervenirBean.senderEmail}" required="true"
+                             requiredMessage="Saisir un email." validatorMessage="Email invalide."
+                             class="form-control" placeholder="Ex: gecoplus@gmail.com">
+                    <p:keyFilter regEx="/[a-z0-9_\.\-@]/i"/>
+                </p:inputText>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-6"></div>-->
+            <div class="ui-g-12 ui-md-6 ui-lg-1">
+                <p:outputLabel value="Au parent de l'élève : " style="font-weight: bold" for="receiverMail"/>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-5">
+                <p:selectOneMenu class="form-control" filter="true" filterMatchMode="startsWith" id="receiverMail"
+                                 required="true" requiredMessage="Sélectionner un élève."
+                                 value="#{eleveBean.eleve}" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="Sélectionner un élève" itemValue="#{null}" noSelectionOption="true"/>
+                    <f:selectItems value="#{eleveBean.eleves2}" var="el" itemLabel="#{el.nom} #{el.prenom} (Classe :
+                                   #{el.classe.libelle})" itemValue="#{el}"/>
+                </p:selectOneMenu>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-6"></div>
+            <div class="ui-g-12 ui-md-6 ui-lg-1">
+                <p:outputLabel value="Objet : " style="font-weight: bold"/>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-5">
+                <p:inputText id="subject" class="form-control" placeholder="Saisir l'objet"
+                             value="#{eleveBean.subject}"/>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-6"></div>
+            <div class="ui-g-12 ui-md-6 ui-lg-1">
+                <p:outputLabel value="Message : " style="font-weight: bold"/>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-5">
+                <p:inputTextarea id="message" class="form-control" rows="4" cols="35" 
+                                 placeholder="Votre message ici..." value="#{eleveBean.message}"/>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-2" style="padding-top: 25px">
+                <p:fileUpload mode="simple" skinSimple="true" label="Pièces jointes"
+                              fileUploadListener="#{eleveBean.handleFileUpload2}"/>
+            </div>
+        </div>
+    </h:body>
+</html>
+

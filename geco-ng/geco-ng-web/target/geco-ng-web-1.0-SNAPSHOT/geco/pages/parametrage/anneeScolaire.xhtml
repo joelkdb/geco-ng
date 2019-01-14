@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/geco/templates/layout.xhtml">
+            <ui:define name="title">
+                Année - Scolaire
+            </ui:define>
+            
+            <ui:define name="description">
+                Cette pages vous permet de paramétrer l'année-scolaire en cours<br/>
+                ou ultérieure.
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="ui-g-12">
+                    <h:form style="padding-top: 10px">
+                        <p:fieldset legend="Créer une année scolaire" toggleable="true" toggleSpeed="500"
+                                    id="serieField" styleClass="anneeField">
+                            <div class="ui-g">
+                                <h:inputHidden id="id" value="#{anneeScolaireBean.entity.id}" />
+                                <div class="ui-g-4">
+                                    <div class="ui-g-4" style="padding-top: 10px">
+                                        <p:outputLabel for="libelle" value="Designation :" class="form-control"/><br/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText id="libelle" placeholder="2017 - 2018" 
+                                                     value="#{anneeScolaireBean.entity.libelle}" required="true"
+                                                     class="form-control" requiredMessage="La désignation de l'année-scolaire est obligatoire.">
+                                        </p:inputText>
+                                    </div>
+                                </div>
+                                <div class="ui-g-4">
+                                    <div class="ui-g-4" style="padding-top: 10px">
+                                        <p:outputLabel for="dateDebut" value="Date de Debut :" class="form-control"/><br/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText id="dateDebut" placeholder="2017" 
+                                                     value="#{anneeScolaireBean.entity.dateDebut}" required="true"
+                                                     class="form-control" requiredMessage="L'année de début est obligatoire.">
+                                        </p:inputText>
+                                    </div>
+                                </div>
+                                <div class="ui-g-4">
+                                    <div class="ui-g-4" style="padding-top: 10px">
+                                        <p:outputLabel for="dateFin" value="Date de Fin :" class="form-control"/><br/>
+                                    </div>
+                                    <div class="ui-g-8">
+                                        <p:inputText id="dateFin" placeholder="2018" 
+                                                     value="#{anneeScolaireBean.entity.dateFin}" required="true"
+                                                     class="form-control" requiredMessage="L'année de fin est obligatoire.">
+                                        </p:inputText>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12">
+                                    <p:commandButton value="Enregistrer" icon="fa fa-save"
+                                                     action="#{anneeScolaireBean.add()}" update="@form @(.annees)"
+                                                     disabled="#{anneeScolaireBean.disableSave}" process="@form"/>
+
+                                    <p:commandButton value="Annuler" icon="fa fa-remove"
+                                                     action="#{anneeScolaireBean.init()}" 
+                                                     update="@form" immediate="true" process="@this"/>
+                                    
+                                    <p:commandButton value="Modifier" icon="fa fa-edit"
+                                                     disabled="#{anneeScolaireBean.disableEdit}"
+                                                     action="#{anneeScolaireBean.update()}" update="@form @(.annees)" 
+                                                     process="@form"/>
+                                </div>
+                            </div>                      
+                        </p:fieldset>
+                    </h:form>
+                    <h:form style="padding-top: 10px">
+                        <p:fieldset legend="Liste des année scolaire" toggleable="true" toggleSpeed="500">
+                            <p:dataTable var="item" value="#{anneeScolaireBean.model}" id="annees" styleClass="annees"
+                                         reflow="true" rows="5" paginator="true" lazy="true" rowKey="#{item.id}"
+                                         emptyMessage="Liste vide.">
+                                <p:column headerText="Désignation">
+                                    <h:outputText value="#{item.libelle}" />
+                                </p:column>
+
+                                <p:column headerText="Date de Début">
+                                    <h:outputText value="#{item.dateDebut}" />
+                                </p:column>
+
+                                <p:column headerText="Date de Fin">
+                                    <h:outputText value="#{item.dateFin}" />
+                                </p:column>
+
+                                <p:column headerText="Actions">
+                                    <p:commandButton title="#{msg['core.components.datatable.operations.edit']}"
+                                                     action="#{anneeScolaireBean.setEntity(item)}"
+                                                     icon="fa fa-edit" update="@(.anneeField)"/>
+                                    <p:commandButton title="#{msg['core.components.datatable.operations.delete']}"
+                                                     icon="fa fa-remove" action="#{anneeScolaireBean.delete(item)}"
+                                                     process="@(.annees)" update="@(.annees)">
+                                        <p:confirm header="Confirmation" icon="ui-icon-alert" 
+                                                   message="#{msg['core.components.datatable.operations.delete.confirmmessage']}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:fieldset>
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

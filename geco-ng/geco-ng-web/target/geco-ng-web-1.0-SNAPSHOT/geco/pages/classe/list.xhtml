@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <div class="ui-g-12 ui-md-12 ui-lg-12">
+            <p:dataTable id="classes" lazy="true" value="#{classeBean.model}" paginator="true"
+                         var="item" rowKey="#{item.code}" sortBy="#{item.code}" sortOrder="descending"
+                         emptyMessage="Liste vide" rows="4" styleClass="classes">
+                <p:column headerText="Nom" filterBy="#{item.libelle}" sortBy="#{item.libelle}">
+                    <center>
+                        <h:outputText value="#{item.libelle}"/>
+                    </center>
+                </p:column>
+
+                <p:column headerText="Série" sortBy="#{item.serie1}">
+                    <center>
+                        <h:outputText value="#{item.serie1}"/>
+                    </center>
+                </p:column>
+
+                <p:column headerText="Etablissement" sortBy="#{item.etablissement.nom}">
+                    <center>
+                        <h:outputText value="#{item.etablissement.nom}"/>
+                    </center>
+                </p:column>
+
+                <p:column headerText="Type d'établissement" 
+                          sortBy="#{item.etablissement.typeEtablissement.libelle}">
+                    <center>
+                        <h:outputText value="#{item.etablissement.typeEtablissement.libelle}"/>
+                    </center>
+                </p:column>
+
+                <p:column headerText="Actions" style="width: 90px">
+                    <center>
+                        <p:commandButton title="#{msg['core.components.datatable.operations.edit']}"
+                                         icon="fa fa-edit" action="#{classeBean.setEntity(item)}"
+                                         update="@(.classeField)" immediate="true"/>
+                        <p:commandButton title="#{msg['core.components.datatable.operations.delete']}"
+                                         icon="fa fa-remove" process="@form" update="@form"
+                                         action="#{classeBean.delete(item)}" immediate="true">
+                            <p:confirm header="Confirmation" icon="ui-icon-alert" 
+                                       message="#{msg['core.components.datatable.operations.delete.confirmmessage']}"/>
+                        </p:commandButton>
+                    </center>
+                </p:column>
+            </p:dataTable>
+        </div>
+    </h:body>
+</html>

@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <p:fieldset legend="Filtre/Recherche d'élève">
+            <div class="ui-g-12 ui-md-6 ui-lg-4">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6 ui-lg-12">
+                        <p:outputLabel value="Type d'établissement :"/>
+                        <p:selectOneMenu id="type" class="form-control"
+                                         converter="omnifaces.SelectItemsConverter"
+                                         title="Sélectionner un type d'établissement">
+                            <f:selectItem itemLabel="Sélectionner un type d'établissement" 
+                                          itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{etablissementBean.typesEtablissement}" var="type"
+                                           itemLabel="#{type.libelle}" itemValue="#{type}"/>
+                            <p:ajax event="itemSelect" listener="#{eleveBean.onTypeSelect}" 
+                                    update="etablissement"/>
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-4">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6 ui-lg-12">
+                        <p:outputLabel value="Établissement :"/>
+                        <p:selectOneMenu id="etablissement" class="form-control" 
+                                         converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="Sélectionner un établissement" itemValue="#{null}"
+                                          noSelectionOption="true"/>
+                            <f:selectItems value="#{eleveBean.etablissements}" var="etab"
+                                           itemLabel="#{etab.nom}" itemValue="#{etab}"/>
+                            <p:ajax event="itemSelect" listener="#{eleveBean.onEtablissementSelect}" 
+                                    update="classe eleves"/>
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-lg-4">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6 ui-lg-12">
+                        <p:outputLabel value="Classe :"/>
+                        <p:selectOneMenu id="classe" class="form-control" 
+                                         converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="Sélectionner une classe" itemValue="#{null}"
+                                          noSelectionOption="true"/>
+                            <f:selectItems value="#{eleveBean.classes}" var="classe"
+                                           itemLabel="#{classe.libelle}" itemValue="#{classe}"/>
+                            <p:ajax event="itemSelect" listener="#{eleveBean.onClasseSelect}" 
+                                    update="eleves"/>
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-lg-4">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6 ui-lg-12">
+                        <p:outputLabel value="Élève :"/>
+                        <p:selectOneMenu id="eleves" class="form-control" 
+                                         converter="omnifaces.SelectItemsConverter"
+                                         value="#{eleveBean.eleve}">
+                            <f:selectItem itemLabel="Sélectionner un élève" itemValue="#{null}"
+                                          noSelectionOption="true"/>
+                            <f:selectItems value="#{eleveBean.eleves}" var="el"
+                                           itemLabel="#{el.nom}  #{el.prenom}" itemValue="#{el}"/>
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-lg-4">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6 ui-lg-12">
+                        <p:outputLabel value="Période de l'année :"/>
+                        <p:selectOneMenu id="periode" class="form-control" 
+                                         converter="omnifaces.SelectItemsConverter"
+                                         value="#{eleveBean.periode}">
+                            <f:selectItem itemLabel="Sélectionner une période" itemValue="#{null}"
+                                          noSelectionOption="true"/>
+                            <f:selectItem itemLabel="Premier Trimestre" itemValue="Premier Trimestre"/>
+                            <f:selectItem itemLabel="Deuxième Trimestre" itemValue="Deuxième Trimestre"/>
+                            <f:selectItem itemLabel="Troisième Trimestre" itemValue="Troisième Trimestre"/>
+                            <f:selectItem itemLabel="Premier Semestre" itemValue="Premier Semestre"/>
+                            <f:selectItem itemLabel="Deuxième Semestre" itemValue="Deuxième Semestre"/>
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-lg-4">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6 ui-lg-12">
+                        <p:outputLabel value="Année scolaire :"/>
+                        <p:selectOneMenu id="annee" class="form-control" 
+                                         converter="omnifaces.SelectItemsConverter"
+                                         value="#{eleveBean.anneeScolaire}">
+                            <f:selectItem itemLabel="Sélectionner une période" itemValue="#{null}"
+                                          noSelectionOption="true"/>
+                            <f:selectItems value="#{anneeScolaireBean.annees}" var="an" itemLabel="#{an.dateDebut} - 
+                                           #{an.dateFin}" itemValue="#{an}"/>
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-lg-4">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6 ui-lg-12">
+                        <p:outputLabel value="Absences :"/><br/>
+                        <p:inputNumber id="absence" value="#{eleveBean.absence}" emptyValue="zero"
+                                       decimalPlaces="0" maxlength="2" size="4" minValue="0" placeholder="0h"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+    </h:body>
+</html>
